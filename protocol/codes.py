@@ -1,0 +1,14 @@
+codes = {
+    100: 'BASIC_NOTICE',
+    101: 'IMPORTANT_NOTICE',
+    200: 'OK',
+    201: 'CREATED',
+    202: 'ACCEPTED',
+    400: 'WRONG_REQUEST',
+    401: 'UNAUTHORIZED',
+    403: 'USER_BLOCKED',
+    404: 'NOT_FOUND',
+    409: 'CONFLICT',
+    410: 'USER_GONE',
+    500: 'SERVER_ERROR',
+}
