@@ -1,0 +1,2 @@
+def presence(message):
+    pass
