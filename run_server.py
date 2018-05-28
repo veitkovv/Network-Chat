@@ -15,4 +15,4 @@ if __name__ == '__main__':
     sock = socket_bind(host, port)
 
     server = Server(sock)
-    server.run()
+    server.mainloop()

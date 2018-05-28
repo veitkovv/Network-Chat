@@ -1,0 +1,32 @@
+2018-05-28 11:46:29,114 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : 10ssss : {'to': '#all', 'time': 1527489989.0996, 'account_name': None}>
+2018-05-28 11:46:29,129 - DEBUG - actions - send_next_message - ќтправл€ю сообщение None
+2018-05-28 11:46:34,117 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527489994.1176, 'account_name': None}>
+2018-05-28 11:46:39,165 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdada : {'to': '#all', 'time': 1527489999.1656, 'account_name': None}>
+2018-05-28 11:46:40,381 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdad : {'to': '#all', 'time': 1527490000.3816, 'account_name': None}>
+2018-05-28 11:46:43,437 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdasdad : {'to': '#all', 'time': 1527490003.4376, 'account_name': None}>
+2018-05-28 11:47:20,759 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdad : {'to': '#all', 'time': 1527490040.7596, 'account_name': None}>
+2018-05-28 11:47:20,774 - DEBUG - actions - send_next_message - ќтправл€ю сообщение None
+2018-05-28 11:48:23,420 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490103.4206, 'account_name': None}>
+2018-05-28 11:48:23,435 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490103.4206, "account_name": null}, "body": "asd"}'
+2018-05-28 11:54:32,362 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490472.3628, 'account_name': None}>
+2018-05-28 11:54:32,377 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490472.3628, "account_name": null}, "body": "asd"}'
+2018-05-28 11:54:41,194 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490481.1947, 'account_name': None}>
+2018-05-28 11:54:41,209 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490481.1947, "account_name": null}, "body": ""}'
+2018-05-28 11:54:42,634 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490482.6348, 'account_name': None}>
+2018-05-28 11:54:42,649 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490482.6348, "account_name": null}, "body": ""}'
+2018-05-28 11:54:43,458 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490483.4589, 'account_name': None}>
+2018-05-28 11:54:43,473 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490483.4589, "account_name": null}, "body": ""}'
+2018-05-28 11:54:44,114 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490484.115, 'account_name': None}>
+2018-05-28 11:54:44,129 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490484.115, "account_name": null}, "body": ""}'
+2018-05-28 11:54:44,771 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490484.7711, 'account_name': None}>
+2018-05-28 11:54:44,786 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490484.7711, "account_name": null}, "body": ""}'
+2018-05-28 11:54:45,315 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490485.3151, 'account_name': None}>
+2018-05-28 11:54:45,330 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490485.3151, "account_name": null}, "body": ""}'
+2018-05-28 11:56:17,671 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490577.6713, 'account_name': None}>
+2018-05-28 11:56:17,686 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490577.6713, "account_name": null}, "body": "asd"}'
+2018-05-28 11:56:19,239 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490579.2395, 'account_name': None}>
+2018-05-28 11:56:19,254 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490579.2395, "account_name": null}, "body": "asd"}'
+2018-05-28 11:56:20,415 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490580.4156, 'account_name': None}>
+2018-05-28 11:56:20,430 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490580.4156, "account_name": null}, "body": "asd"}'
+2018-05-28 11:56:21,231 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490581.2317, 'account_name': None}>
+2018-05-28 11:56:21,241 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490581.2317, "account_name": null}, "body": "asd"}'

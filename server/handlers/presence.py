@@ -1,2 +1,2 @@
-def presence(message):
-    pass
+def presence_handle(message):
+    print(message)

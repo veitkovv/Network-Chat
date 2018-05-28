@@ -1,63 +1,22 @@
-from collections import deque
-from threading import Thread
-from server.metaclasses import Singleton
+import select
+import threading
 from server.settings import *
-from protocol.server import Request
-from server.actions import actions as actions
+from protocol.server import Request, Response
+from server.actions import actions
+from server.user import User
 
 
-class Server(Thread):
+class Server:
     def __init__(self, sock):
         super().__init__()
         self._sock = sock
-        self._queue = ReadQueue(self._sock)  # экземпляр очереди на чтение
-
-    def read_requests(self):
-        """Забирает из очереди ссообщение, определяет action, отправляет на обработку"""
-        try:
-            message = Request(self._queue.get_next_message)
-            actions[message.action](message)
-        except KeyError:
-            print('action do not allowed')
-            # TODO send 500 error
-        except IndexError:
-            # print('Empty Queue')
-            pass
-
-    def write_responses(self):
-        pass
-
-    def run(self):
-        while True:
-            self.read_requests()
-            self.write_responses()
-
-
-class Queue(metaclass=Singleton):
-    """очередь сообщений должна быть в единственном экземпляре"""
-
-    def __init__(self, sock):
-        self._sock = sock
-        self._queue = deque()
-
-    def run(self):
-        pass
-
-
-class ReadQueue(Queue, Thread):
-    def run(self):
-        """Метод читает из сокета, и складывает в очередь байт-сообщения для обработки"""
-        while True:
-            data = self._sock.recv(BUFFER_SIZE)
-            if data:
-                for single_message in self.pick_messages_from_stream(data):
-                    self._queue.append(single_message)
+        self.connected_users = list()
 
     @staticmethod
     def pick_messages_from_stream(raw_bytes):
         """
         Метод определяет размер сообщения, и из байтовой строки возвращает по одному сообщению
-        TCP протокол может склеить данные, тогда json не получится
+        TCP протокол может склеить данные
         """
         # Первые size_num символов в сообщении будут отданы под размер сообщения.
         # Это нужно для избежания склеивания сообщения
@@ -70,6 +29,53 @@ class ReadQueue(Queue, Thread):
             raw_bytes = raw_bytes[message_size + MESSAGE_SIZE_NUM:]
             yield single_message
 
-    @property
-    def get_next_message(self):
-        return self._queue.popleft()
+    def lookup_user_by_sock(self, sock):
+        """Объект User по сокету"""
+        for user in self.connected_users:
+            if user.sock == sock:
+                return user
+
+    def read_requests(self, ready_to_read):
+        for sock in ready_to_read:
+            user = self.lookup_user_by_sock(sock)
+            print(user)
+            data = sock.recv(BUFFER_SIZE)
+            if data:
+                for single_message in self.pick_messages_from_stream(data):
+                    user.append_request(single_message)
+
+    def write_responses(self, ready_to_write):
+        """Забирает из очереди ссообщение, определяет action, отправляет на обработку"""
+        for sock in ready_to_write:
+            user = self.lookup_user_by_sock(sock)
+            if user is not None:
+                if user.requests:
+                    message = Request(user.requests.popleft())
+                    try:
+                        actions[message.action](message)
+                    except KeyError:
+                        error_message = Response(code=500, action=message.action, body='Action do not allowed')
+                        user.sock.send(error_message.to_bytes())
+
+    def mainloop(self):
+        while True:
+            try:
+                sock, addr = self._sock.accept()
+                print('Accepting {}:{}'.format(sock, addr))
+                # пока клиент не ввел свои данные, записывается как безымянный
+                new_user = User(sock)
+                self.connected_users.append(new_user)
+            except OSError:
+                # server timeout
+                pass
+            finally:
+                ready_to_read = []
+                ready_to_write = []
+                try:
+                    # Для select нужен список
+                    conn_list = [user.sock for user in self.connected_users]
+                    ready_to_read, ready_to_write, _ = select.select(conn_list, conn_list, [])
+                except (OSError, BrokenPipeError):
+                    pass
+                self.read_requests(ready_to_read)
+                self.write_responses(ready_to_write)
