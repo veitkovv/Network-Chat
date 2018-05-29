@@ -1,8 +1,9 @@
 import socket
 import threading
 from client.cli_args import GetHostAndPort
-from client.settings import BUFFER_SIZE, ENCODING
-from client.actions import Sender
+from client.settings import BUFFER_SIZE
+from client.core.sender import Sender
+from protocol.client import Response
 
 
 class Client:
@@ -22,9 +23,9 @@ class Client:
             # Получаем данные с сервера
             bytes_data = sock.recv(BUFFER_SIZE)
             # Приводим полученные данные к строковому виду
-            str_data = bytes_data.decode(ENCODING)
+            server_message = Response(bytes_data)
             # Выводим полученные данные на экран
-            print(str_data)
+            print(server_message.code, server_message.action, server_message.body)
 
     def write(self):
         while True:
@@ -37,6 +38,9 @@ class Client:
             self._sender.send_next_message()
 
     def run(self):
+        account_name = input('Введите имя учетной записи: ')
+        self._sender.set_account_name(account_name)
+        self._sender.presence()
         reader_thread = threading.Thread(target=self.read, args=(self._sock,))
         writer_thread = threading.Thread(target=self.write)
         sender_thread = threading.Thread(target=self.send)

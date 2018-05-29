@@ -4,10 +4,10 @@ from protocol.client import Request
 from collections import deque
 from client.settings import ENCODING, MESSAGE_SIZE_NUM
 
+
 class Sender:
     """
     Класс для отправки сообщений JIM через сокет
-
     """
 
     def __init__(self, sock):
@@ -23,8 +23,12 @@ class Sender:
         try:
             message = self._queue.popleft()
             log.debug(f'Отправляю сообщение {message}')
-            # считаем длинну сообщения
+            # считаем длинну сообщения.
+            # Так как под длинну сообщения задействуем фиксированное количество символов = MESSAGE_SIZE_NUM,
+            # для чисел меньше четвертого порядка в начало нужно дописать нули.
+            # Например 4 = 0004, 23 = 0023, 554 = 0554.
             message_len = f'{len(message):0{MESSAGE_SIZE_NUM}d}'
+            # Добавляем в начало строки длинну, чтобы сервер мог разобрать склеенные сообщения
             self._sock.send(message_len.encode(ENCODING) + message)
         except IndexError:
             pass

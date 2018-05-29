@@ -30,3 +30,19 @@
 2018-05-28 11:56:20,430 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490580.4156, "account_name": null}, "body": "asd"}'
 2018-05-28 11:56:21,231 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490581.2317, 'account_name': None}>
 2018-05-28 11:56:21,241 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490581.2317, "account_name": null}, "body": "asd"}'
+2018-05-28 18:38:38,670 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527514718.6703, 'account_name': None}>
+2018-05-28 18:38:38,685 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527514718.6703, "account_name": null}, "body": "asd"}'
+2018-05-28 18:51:44,061 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527515504.0618, 'account_name': 'asd'}>
+2018-05-28 18:51:44,062 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527515504.0618, "account_name": "asd"}, "body": "asd"}'
+2018-05-28 18:51:50,034 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527515510.0344, 'account_name': 'asd'}>
+2018-05-28 18:51:50,049 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527515510.0344, "account_name": "asd"}, "body": ""}'
+2018-05-28 19:06:34,763 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527516394.7639, 'account_name': 'asd'}>
+2018-05-28 19:06:34,765 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527516394.7639, "account_name": "asd"}, "body": "asd"}'
+2018-05-28 19:09:38,011 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527516578.0112, 'account_name': 'asd'}>
+2018-05-28 19:09:38,013 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527516578.0112, "account_name": "asd"}, "body": "asd"}'
+2018-05-28 19:48:16,469 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527518896.4694, 'account_name': 'asd'}>
+2018-05-28 19:48:16,471 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527518896.4694, "account_name": "asd"}, "body": "asd"}'
+2018-05-28 19:48:17,930 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527518897.9304, 'account_name': 'asd'}>
+2018-05-28 19:48:17,945 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527518897.9304, "account_name": "asd"}, "body": ""}'
+2018-05-28 19:49:39,880 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : vasya : {'time': 1527518979.8804, 'account_name': 'vasya'}>
+2018-05-28 19:49:39,882 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527518979.8804, "account_name": "vasya"}, "body": "vasya"}'

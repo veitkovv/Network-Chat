@@ -38,7 +38,6 @@ class Server:
     def read_requests(self, ready_to_read):
         for sock in ready_to_read:
             user = self.lookup_user_by_sock(sock)
-            print(user)
             data = sock.recv(BUFFER_SIZE)
             if data:
                 for single_message in self.pick_messages_from_stream(data):
@@ -52,7 +51,7 @@ class Server:
                 if user.requests:
                     message = Request(user.requests.popleft())
                     try:
-                        actions[message.action](message)
+                        actions[message.action](message, user)
                     except KeyError:
                         error_message = Response(code=500, action=message.action, body='Action do not allowed')
                         user.sock.send(error_message.to_bytes())
@@ -61,7 +60,7 @@ class Server:
         while True:
             try:
                 sock, addr = self._sock.accept()
-                print('Accepting {}:{}'.format(sock, addr))
+                print(f'Accepting {sock}:{addr}')
                 # пока клиент не ввел свои данные, записывается как безымянный
                 new_user = User(sock)
                 self.connected_users.append(new_user)

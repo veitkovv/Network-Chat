@@ -1,19 +1,17 @@
-from repo.schema import User, Contact, UserMessage
-from repo.errors import ContactDoesNotExist, ContactAlreadyInDatabase
-from utils.crypto_utils import HashMixin
-from settings import DEFAULT_AVATAR_PATH
+from server.database.schema import User, Contact, UserMessage
+from server.database.errors import ContactDoesNotExist, ContactAlreadyInDatabase
+from server.crypto.hash import get_hash
 import datetime
 import time
 
 
-class Repo(HashMixin):
+class Repo:
     def __init__(self, session):
-        super().__init__()
         self._session = session
 
     def add_user(self, user_name, password):
         if not self.client_exists(user_name):
-            pass_hash = super().get_hash(password)
+            pass_hash = get_hash(password)
             new_user = User(user_name, pass_hash)
             self._session.add(new_user)
             self._session.commit()
@@ -86,22 +84,22 @@ class Repo(HashMixin):
                 result.append(contact)
         return result
 
-    def get_client_avatar(self, account_name):
-        """
-        Ищет в БД путь до клиентского аватара
-        Если поле пустое - возвращает дефолтный аватар
-        """
-        client = self.get_client_by_username(account_name)
-        if client.avatar_path:
-            return client.avatar_path
-        else:
-            return DEFAULT_AVATAR_PATH
+    # def get_client_avatar(self, account_name):
+    #     """
+    #     Ищет в БД путь до клиентского аватара
+    #     Если поле пустое - возвращает дефолтный аватар
+    #     """
+    #     client = self.get_client_by_username(account_name)
+    #     if client.avatar_path:
+    #         return client.avatar_path
+    #     else:
+    #         return DEFAULT_AVATAR_PATH
 
-    def set_client_avatar(self, account_name, path):
-        """Записывает клиенту путь до его аватара"""
-        client = self.get_client_by_username(account_name)
-        client.avatar_path = path
-        self._session.commit()
+    # def set_client_avatar(self, account_name, path):
+    #     """Записывает клиенту путь до его аватара"""
+    #     client = self.get_client_by_username(account_name)
+    #     client.avatar_path = path
+    #     self._session.commit()
 
     def add_message(self, from_, to_, time_, text_, is_delivered=False):
         """Хранение личных сообщений в БД"""
@@ -112,20 +110,20 @@ class Repo(HashMixin):
         self._session.add(new_message)
         self._session.commit()
 
-    def get_delayed_messages(self, account_name):
-        """получение сообщений, которые не доставлены"""
-        user = self.get_client_by_username(account_name)
-        undelivered_messages = self._session.query(UserMessage).filter(UserMessage.to_ == user.id).filter(
-            UserMessage.is_delivered == False).all()
-        for message in undelivered_messages:
-            receiver = self.get_client_username_by_id(message.to_)
-            sender = self.get_client_username_by_id(message.from_)
-            time_ = time.mktime(message.time_.timetuple())
-            text = '[Оффлайн сообщение] {}'.format(message.text_)
-            try:
-                message.is_delivered = True
-                self._session.commit()
-                yield sender, receiver, time_, text
-            except Exception as e:
-                self._session.rollback()
-                print(e)
+    # def get_delayed_messages(self, account_name):
+    #     """получение сообщений, которые не доставлены"""
+    #     user = self.get_client_by_username(account_name)
+    #     undelivered_messages = self._session.query(UserMessage).filter(UserMessage.to_ == user.id).filter(
+    #         UserMessage.is_delivered == False).all()
+    #     for message in undelivered_messages:
+    #         receiver = self.get_client_username_by_id(message.to_)
+    #         sender = self.get_client_username_by_id(message.from_)
+    #         time_ = time.mktime(message.time_.timetuple())
+    #         text = '[Оффлайн сообщение] {}'.format(message.text_)
+    #         try:
+    #             message.is_delivered = True
+    #             self._session.commit()
+    #             yield sender, receiver, time_, text
+    #         except Exception as e:
+    #             self._session.rollback()
+    #             print(e)
