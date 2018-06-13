@@ -1,18 +1,30 @@
+import asyncio
 from server.cli_args import GetHostAndPort
-from server.listener import socket_bind
-from server.server import Server
+from server.manager import AsyncServerManager
+from server.core.chat_controller import ChatController
+import ssl
 
-if __name__ == '__main__':
-    """
-    1. Получаем параметры с cli - хост порт (-a -p)
-    2. Создаем сокет
-    3. Создаем сервер
-    """
-    cli_args = GetHostAndPort()
+if __name__ == "__main__":
+    cli_args = GetHostAndPort()  # args parse
     cli_args.get_cli_params()
-    host = cli_args.host
-    port = cli_args.port
-    sock = socket_bind(host, port)
+    HOST, PORT = cli_args.host, cli_args.port
 
-    server = Server(sock)
-    server.mainloop()
+    chat_controller = ChatController()
+
+    loop = asyncio.get_event_loop()
+
+    sc = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    sc.load_cert_chain('protocol\cert\chat.cert', 'protocol\cert\chat.key')
+
+    coro = loop.create_server(lambda: AsyncServerManager(chat_controller), HOST, PORT, ssl=sc)
+    server = loop.run_until_complete(coro)
+
+    start_msg = 'Сервер запущен {}:{}'.format(*server.sockets[0].getsockname())
+    print(start_msg)
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        stop_msg = 'Сервер остановлен {}:{}'.format(*server.sockets[0].getsockname())
+        server.close()
+        loop.run_until_complete(server.wait_closed())
+        loop.close()

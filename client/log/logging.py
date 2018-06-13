@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 import logging.config
-from client.settings import LOG_LEVEL
+from client.settings import CONSOLE_LOG_LEVEL
 
 dictLogConfig = {
     "version": 1,
     "handlers": {
         "clientFileHandler": {
-            "level": f"{LOG_LEVEL}",
+            "level": "DEBUG",  # always debug
             "class": "logging.FileHandler",
             "formatter": "formatter",
             "filename": "client/log/messages/client.log"
         },
         "clientStreamHandler": {
-            "level": f"{LOG_LEVEL}",
+            "level": f"{CONSOLE_LOG_LEVEL}",  # console output
             "class": "logging.StreamHandler",
             "formatter": "formatter",
         }
@@ -20,7 +20,7 @@ dictLogConfig = {
     "loggers": {
         "clientLogger": {
             "handlers": ["clientFileHandler", "clientStreamHandler"],
-            "level": f"{LOG_LEVEL}",
+            "level": "DEBUG",
         }
     },
     "formatters": {

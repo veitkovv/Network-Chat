@@ -1,5 +1,6 @@
 import json
 import protocol.settings
+import time
 
 
 class Request:
@@ -7,13 +8,12 @@ class Request:
 
     def __init__(self, action, body, **headers):
         """Конструктор в качестве аргументов принимает основные данные о запросе"""
-        super().__init__()
         self._headers = headers
         self._action = action
         self._body = body
 
     def __repr__(self):
-        return f'<{self._action} : {self._body} : {self._headers}>'
+        return f'<action = {self._action} \n body = {self._body} \n headers = {self._headers}>'
 
     def add_header(self, key, value):
         """
@@ -28,21 +28,24 @@ class Request:
         """
         del self._headers[key]
 
+    def make_envelope(self):
+        envelope = dict()
+        self.add_header('time', time.time())  # Добавим время в сообщение
+        envelope.update({'action': self._action})
+        envelope.update({'headers': self._headers})
+        envelope.update({'body': self._body})
+        return envelope
+
     def to_bytes(self):
         """
         Метод to_bytes - используется для преобразования данных о запросе в байты
         :return: байт-строку из JSON-строки
         """
-        envelope = dict()
-        envelope.update({'action': self._action})
-        envelope.update({'headers': self._headers})
-        envelope.update({'body': self._body})
-        data_str = json.dumps(envelope)
+        data_str = json.dumps(self.make_envelope())
         return data_str.encode(protocol.settings.ENCODING)
 
-    def to_cipher_bytes(self, byte_string):
-        """Для шифрования"""
-        pass
+    def to_cipher_bytes(self, aes):
+        return aes.encrypt(self.to_bytes())
 
 
 class Response:

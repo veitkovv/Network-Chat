@@ -1,8 +1,7 @@
 from server.database.schema import User, Contact, UserMessage
 from server.database.errors import ContactDoesNotExist, ContactAlreadyInDatabase
-from server.crypto.hash import get_hash
+from protocol.crypto.utils import get_hash
 import datetime
-import time
 
 
 class Repo:

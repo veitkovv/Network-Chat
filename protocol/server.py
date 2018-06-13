@@ -1,5 +1,6 @@
 import json
 import protocol.settings
+import time
 
 
 class Request:
@@ -49,7 +50,6 @@ class Response:
     """
 
     def __init__(self, code, action, body, **headers):
-        super().__init__()
         """Конструктор в качестве аргументов принимает основные данные об ответе сервера"""
         self._headers = headers
         self._action = action
@@ -79,15 +79,19 @@ class Response:
         except KeyError:
             return False
 
-    def to_bytes(self):
-        """Метод to_bytes - используется для преобразования данных об ответе сервера в байты"""
+    def make_envelope(self):
         envelope = dict()
+        self.add_header('time', time.time())  # Добавим время в сообщение
         envelope.update({'code': self._code})
         envelope.update({'action': self._action})
         envelope.update({'headers': self._headers})
         envelope.update({'body': self._body})
-        data_str = json.dumps(envelope)
+        return envelope
+
+    def to_bytes(self):
+        """Метод to_bytes - используется для преобразования данных об ответе сервера в байты"""
+        data_str = json.dumps(self.make_envelope())
         return data_str.encode(protocol.settings.ENCODING)
 
-    def to_cipher_bytes(self, byte_string):
-        """Для шифрования"""
+    def to_cipher_bytes(self, aes):
+        return aes.encrypt(self.to_bytes())

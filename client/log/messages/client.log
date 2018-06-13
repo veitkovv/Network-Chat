@@ -1,48 +1,21 @@
-2018-05-28 11:46:29,114 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : 10ssss : {'to': '#all', 'time': 1527489989.0996, 'account_name': None}>
-2018-05-28 11:46:29,129 - DEBUG - actions - send_next_message - ќтправл€ю сообщение None
-2018-05-28 11:46:34,117 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527489994.1176, 'account_name': None}>
-2018-05-28 11:46:39,165 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdada : {'to': '#all', 'time': 1527489999.1656, 'account_name': None}>
-2018-05-28 11:46:40,381 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdad : {'to': '#all', 'time': 1527490000.3816, 'account_name': None}>
-2018-05-28 11:46:43,437 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdasdad : {'to': '#all', 'time': 1527490003.4376, 'account_name': None}>
-2018-05-28 11:47:20,759 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asdad : {'to': '#all', 'time': 1527490040.7596, 'account_name': None}>
-2018-05-28 11:47:20,774 - DEBUG - actions - send_next_message - ќтправл€ю сообщение None
-2018-05-28 11:48:23,420 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490103.4206, 'account_name': None}>
-2018-05-28 11:48:23,435 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490103.4206, "account_name": null}, "body": "asd"}'
-2018-05-28 11:54:32,362 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490472.3628, 'account_name': None}>
-2018-05-28 11:54:32,377 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490472.3628, "account_name": null}, "body": "asd"}'
-2018-05-28 11:54:41,194 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490481.1947, 'account_name': None}>
-2018-05-28 11:54:41,209 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490481.1947, "account_name": null}, "body": ""}'
-2018-05-28 11:54:42,634 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490482.6348, 'account_name': None}>
-2018-05-28 11:54:42,649 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490482.6348, "account_name": null}, "body": ""}'
-2018-05-28 11:54:43,458 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490483.4589, 'account_name': None}>
-2018-05-28 11:54:43,473 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490483.4589, "account_name": null}, "body": ""}'
-2018-05-28 11:54:44,114 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490484.115, 'account_name': None}>
-2018-05-28 11:54:44,129 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490484.115, "account_name": null}, "body": ""}'
-2018-05-28 11:54:44,771 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490484.7711, 'account_name': None}>
-2018-05-28 11:54:44,786 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490484.7711, "account_name": null}, "body": ""}'
-2018-05-28 11:54:45,315 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527490485.3151, 'account_name': None}>
-2018-05-28 11:54:45,330 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490485.3151, "account_name": null}, "body": ""}'
-2018-05-28 11:56:17,671 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490577.6713, 'account_name': None}>
-2018-05-28 11:56:17,686 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490577.6713, "account_name": null}, "body": "asd"}'
-2018-05-28 11:56:19,239 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490579.2395, 'account_name': None}>
-2018-05-28 11:56:19,254 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490579.2395, "account_name": null}, "body": "asd"}'
-2018-05-28 11:56:20,415 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490580.4156, 'account_name': None}>
-2018-05-28 11:56:20,430 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490580.4156, "account_name": null}, "body": "asd"}'
-2018-05-28 11:56:21,231 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527490581.2317, 'account_name': None}>
-2018-05-28 11:56:21,241 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527490581.2317, "account_name": null}, "body": "asd"}'
-2018-05-28 18:38:38,670 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg : asd : {'to': '#all', 'time': 1527514718.6703, 'account_name': None}>
-2018-05-28 18:38:38,685 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527514718.6703, "account_name": null}, "body": "asd"}'
-2018-05-28 18:51:44,061 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527515504.0618, 'account_name': 'asd'}>
-2018-05-28 18:51:44,062 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527515504.0618, "account_name": "asd"}, "body": "asd"}'
-2018-05-28 18:51:50,034 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527515510.0344, 'account_name': 'asd'}>
-2018-05-28 18:51:50,049 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527515510.0344, "account_name": "asd"}, "body": ""}'
-2018-05-28 19:06:34,763 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527516394.7639, 'account_name': 'asd'}>
-2018-05-28 19:06:34,765 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527516394.7639, "account_name": "asd"}, "body": "asd"}'
-2018-05-28 19:09:38,011 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527516578.0112, 'account_name': 'asd'}>
-2018-05-28 19:09:38,013 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527516578.0112, "account_name": "asd"}, "body": "asd"}'
-2018-05-28 19:48:16,469 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : asd : {'time': 1527518896.4694, 'account_name': 'asd'}>
-2018-05-28 19:48:16,471 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527518896.4694, "account_name": "asd"}, "body": "asd"}'
-2018-05-28 19:48:17,930 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <msg :  : {'to': '#all', 'time': 1527518897.9304, 'account_name': 'asd'}>
-2018-05-28 19:48:17,945 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "msg", "headers": {"to": "#all", "time": 1527518897.9304, "account_name": "asd"}, "body": ""}'
-2018-05-28 19:49:39,880 - DEBUG - actions - send_message - ƒобавл€ю в очередь сообщение: <presence : vasya : {'time': 1527518979.8804, 'account_name': 'vasya'}>
-2018-05-28 19:49:39,882 - DEBUG - actions - send_next_message - ќтправл€ю сообщение b'{"action": "presence", "headers": {"time": 1527518979.8804, "account_name": "vasya"}, "body": "vasya"}'
+2018-06-12 19:59:27,936 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528815567.9363265}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-12 20:00:18,920 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528815618.9192832}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-12 20:07:59,749 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528816079.7483084}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-12 20:08:31,076 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528816111.0759287}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-12 20:11:25,385 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528816285.3848472}, "body": "You are not authorized"}'
+2018-06-12 20:13:06,632 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528816386.632844}, "body": "You are not authorized"}'
+2018-06-12 20:18:21,910 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528816701.9099483}, "body": "You are not authorized"}'
+2018-06-12 21:47:59,157 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528822079.1579978}, "body": "You are not authorized"}'
+2018-06-12 21:48:08,892 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "authorization", "headers": {"time": 1528822088.892951}, "body": "You are not authorized"}'
+2018-06-12 21:49:56,540 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528822196.5406437}, "body": "You are not authorized"}'
+2018-06-12 21:50:55,388 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528822255.388449}, "body": "You are not authorized"}'
+2018-06-12 21:55:21,298 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528822521.2978213}, "body": "You are not authorized"}'
+2018-06-12 21:56:55,415 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528822615.4150605}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-12 21:59:03,597 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528822743.59658}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-12 21:59:12,167 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 500, "action": "registration", "headers": {"time": 1528822752.1677878}, "body": "Action do not allowed"}'
+2018-06-13 10:30:03,321 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528867803.3211558}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-13 10:30:17,770 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 500, "action": "registration", "headers": {"time": 1528867817.7696006}, "body": "Action do not allowed"}'
+2018-06-13 10:31:50,492 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528867910.4918718}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-13 10:32:02,297 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528867922.2968717}, "body": "User \\"vasya\\" not found in database"}'
+2018-06-13 10:40:21,422 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "presence", "headers": {"time": 1528868421.4229646}, "body": "Action presence denied until unauthorized"}'
+2018-06-13 10:40:59,625 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528868459.6257846}, "body": "User \\"vasya\\" not found in database"}'

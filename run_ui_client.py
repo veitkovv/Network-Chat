@@ -1,5 +1,5 @@
 import sys
-from client.ui.client_ui import Ui_MainWindow
+from client.ui.client_gui import Ui_MainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
