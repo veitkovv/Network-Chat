@@ -3,19 +3,18 @@ from protocol.byte_stream_handler import pick_messages_from_stream, append_messa
 from protocol.crypto.aes import CipherAes
 from protocol.crypto.utils import public_key_from_bytes, rsa_cipher_byte_string, get_session_key
 from protocol.client import Request, Response
-from client.ui.console_ui import ConsoleClient
 from client.log.logging import client_logger as log
 from client.core.response_handler import response_handler
 
 
 class AsyncClientManager(asyncio.Protocol):
-    def __init__(self, loop):
+    def __init__(self, loop, ui_instance):
         super().__init__()
         self.loop = loop
         self._transport = None
         self._pub_key = ''
         self._aes = CipherAes('')
-        self._console_output = ConsoleClient()
+        self._user_interface = ui_instance  # UI консольный или GUI
 
     def connection_made(self, transport):
         self._transport = transport
@@ -47,9 +46,9 @@ class AsyncClientManager(asyncio.Protocol):
 
     def perform_presence(self):
         """Метод отправляет presence"""
-        account_name = input('Введите имя пользователя: ')
+        account_name = self._user_interface.request_account_name()
         if account_name:
-            self._console_output.set_account_name(account_name)
+            self._user_interface.set_account_name(account_name)
             presence = Request(action='presence', body=account_name)
             self.send_message(presence)
 
@@ -66,9 +65,9 @@ class AsyncClientManager(asyncio.Protocol):
             deciphered_message = self._aes.decrypt(message)
             server_response = Response(deciphered_message)
             try:
-                self._console_output.render_message_from_server(deciphered_message)
+                self._user_interface.render_message_from_server(deciphered_message)
                 new_request = response_handler[server_response.action](server_response,
-                                                                       self._console_output.get_active_account_name)
+                                                                       self._user_interface.get_active_account_name)
                 self.send_message(new_request)
             except IndexError:
                 log.info(f'Action {server_response.action} do not allowed')
@@ -81,7 +80,7 @@ class AsyncClientManager(asyncio.Protocol):
     async def get_console_messages(self, loop):
         """Метод для отправки введенных данных с клавиатуры"""
         while True:
-            msg = await loop.run_in_executor(None, input, self._console_output.user_input_string)
+            msg = await loop.run_in_executor(None, input, self._user_interface.user_input_string)
             print(msg)
             # self.send_message(msg.encode())
 

@@ -67,4 +67,5 @@ class AsyncServerManager(asyncio.Protocol):
                 self.send_message(self.process_action(client_request))
             except KeyError:
                 self.send_message(
-                    Response(code=SERVER_ERROR, action=client_request.action, body='Action do not allowed'))
+                    Response(code=SERVER_ERROR, action=client_request.action,
+                             body=f'Action {client_request.action} do not allowed (not implemented yet)'))

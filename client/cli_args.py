@@ -4,12 +4,13 @@ from server.settings import HOST, PORT
 from server.descriptors import Port
 
 
-class GetHostAndPort:
+class CliArgs:
     port = Port()  # Дескриптор для валидации порта
 
     def __init__(self):
         self.host = HOST
         self.port = PORT
+        self.gui = False
 
     def get_cli_params(self):
         """
@@ -26,6 +27,11 @@ class GetHostAndPort:
         parser.add_argument('-p', type=int,
                             default=PORT,
                             help=f'TCP порт. Значение по умолчанию: {PORT}')
+        parser.add_argument('-gui',
+                            default=self.gui,
+                            help=f'Режим работы клиента. По умолчанию GUI: {self.gui}',
+                            action='store_true')
         args = parser.parse_args()
         self.host = str(args.a)  # IP адрес в строку, чтобы добавить в результат
         self.port = args.p
+        self.gui = args.gui

@@ -5,6 +5,7 @@ from protocol.crypto.utils import get_hash
 
 def presence_response_processing(response_message, account_name):
     if response_message.code == NOT_FOUND:
+
         new_password = input('Введите новый пароль: ')
         return Request(action='registration', body=[account_name, get_hash(new_password)])
     elif response_message.code == WRONG_REQUEST:

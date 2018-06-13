@@ -28,6 +28,9 @@ class ConsoleClient(BaseUI):
     def display_chat_state(self):
         pass
 
+    def request_account_name(self):
+        return input('Введите имя пользователя: ')
+
     @property
     def get_active_chat_name(self):
         return self._active_chat
@@ -63,7 +66,7 @@ class ConsoleClient(BaseUI):
     def render_message_from_server(self, message):
         log.debug(f'processing {message}')
         response_obj = Response(message)
-        print(f'Time: {self.timestamp_to_normal_date(response_obj.headers["time"])} \n'
-              f'Code: {response_obj.code} \n'
-              f'Action: {response_obj.action} \n'
-              f'Server Message: {response_obj.body}')
+        print(f'\n'
+              f'SERVER MESSAGE:<< <{self.timestamp_to_normal_date(response_obj.headers["time"])}> '
+              f'<ACTION: {response_obj.action}> '
+              f'<CODE: {response_obj.code}> : {response_obj.body}')
