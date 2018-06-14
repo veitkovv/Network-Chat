@@ -9,4 +9,5 @@ ACCOUNT_NAME_PATTERN = '^[A-Za-z0-9]+$'
 DEFAULT_CHAT = 'all'
 AUTHENTICATION_REQUIRED_ACTIONS = (
     'msg',
+    'join',
 )

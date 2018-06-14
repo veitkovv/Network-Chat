@@ -25,10 +25,10 @@ class AsyncServerManager(asyncio.Protocol):
         self.user.set_transport(transport)
         self.user.public, self.user.private = generate_rsa_pair()
         key = append_message_len_to_message(self.user.public.exportKey())
-        self.user.transport.write(key)
+        self.user.get_transport.write(key)
 
     def connection_lost(self, exc):
-        user_disconnected_message = f'{self.user.account_name} отключился'
+        user_disconnected_message = f'{self.user.get_account_name} отключился'
         print(user_disconnected_message)
         # json_user_disconnected_message = Response(action='msg', code=BASIC_NOTICE, body=user_disconnected_message)
         # for chat in self._chat_controller.get_list_chats:
@@ -47,15 +47,15 @@ class AsyncServerManager(asyncio.Protocol):
     def send_message(self, message):
         """Дописывает в начало длинну сообщения, и затем отправляет"""
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self._aes))
-        self.user.transport.write(ciphered_message_with_len)
+        self.user.get_transport.write(ciphered_message_with_len)
 
     @authentication_required
-    def process_action(self, client_request):
-        return actions_handler[client_request.action](client_request)
+    def process_action(self, client_request, user_obj):
+        return actions_handler[client_request.action](client_request, user_obj)
 
     def process_message(self, message):
         if not self._aes.get_secret():
-            # Первое сообщение от клиента - зашифрованный RSA ключ сессии,
+            # Первое сообщение от клиента - зашифрованный публичным ключем RSA ключ сессии,
             # которым будут шифроваться все последующие сообщения
             decrypted_key = rsa_decipher_byte_string(message, self.user.private)
             self._aes.set_secret(decrypted_key)
@@ -64,7 +64,7 @@ class AsyncServerManager(asyncio.Protocol):
             print('processing message: ', decrypted_message)
             client_request = Request(decrypted_message)
             try:
-                self.send_message(self.process_action(client_request))
+                self.send_message(self.process_action(client_request, self.user))
             except KeyError:
                 self.send_message(
                     Response(code=SERVER_ERROR, action=client_request.action,

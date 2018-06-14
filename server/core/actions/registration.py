@@ -7,7 +7,7 @@ from server.database.errors import ContactAlreadyInDatabase
 db = Repo(session)
 
 
-def registration_processing(message):
+def registration_processing(message, user_obj):
     """
     Отправляется клиентом при регистрации. содержит имя учетной записи и хеш пароля.
     Ответ сервера:
@@ -16,6 +16,7 @@ def registration_processing(message):
     400 - имя или пароль отсутствует или некорректно
     500 - ошибка сервера
     :param message: Объект Request
+    :param user_obj: объект user
     :return: Объект Response
     """
     account_name, hash_password = message.body

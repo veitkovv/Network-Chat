@@ -72,7 +72,9 @@ class AsyncClientManager(asyncio.Protocol):
             deciphered_message = self._aes.decrypt(message)
             server_response = Response(deciphered_message)
             try:
+                # Отображение ответа сервера
                 self._user_interface.render_message_from_server(deciphered_message)
+                # Чтобы не делать это в каждом action_response, проверяем авторизацию.
                 if server_response.code == UNAUTHORIZED:
                     new_request = self.unauthorized_response()
                 else:

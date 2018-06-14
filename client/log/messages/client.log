@@ -68,3 +68,17 @@
 2018-06-14 11:24:10,797 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 201, "action": "registration", "headers": {"time": 1528957450.7962325}, "body": "User petya registration success!"}'
 2018-06-14 11:55:21,553 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 200, "action": "presence", "headers": {"time": 1528959321.5522892}, "body": "User vasya found!"}'
 2018-06-14 11:55:52,365 - INFO - manager - connection_lost - The server closed the connection; Stop the event loop
+2018-06-14 12:06:20,287 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 200, "action": "presence", "headers": {"time": 1528959980.286161}, "body": "User vasya found!"}'
+2018-06-14 12:06:30,874 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 404, "action": "presence", "headers": {"time": 1528959990.8742194}, "body": "User \\"vasyan\\" not found in database"}'
+2018-06-14 12:06:34,944 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 201, "action": "registration", "headers": {"time": 1528959994.9436264}, "body": "User vasyan registration success!"}'
+2018-06-14 14:56:48,374 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 200, "action": "presence", "headers": {"time": 1528970208.3738956}, "body": "User vasya found!"}'
+2018-06-14 14:56:48,375 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 500, "action": "join", "headers": {"time": 1528970208.3758957}, "body": "Action join do not allowed (not implemented yet)"}'
+2018-06-14 14:58:41,750 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 200, "action": "presence", "headers": {"time": 1528970321.750232}, "body": "User vasya found!"}'
+2018-06-14 14:58:41,752 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "join", "headers": {"time": 1528970321.752232}, "body": "Action join denied until unauthorized"}'
+2018-06-14 16:40:50,369 - INFO - manager - connection_lost - The server closed the connection; Stop the event loop
+2018-06-14 16:42:07,172 - INFO - manager - connection_lost - The server closed the connection; Stop the event loop
+2018-06-14 16:44:14,897 - INFO - manager - connection_lost - The server closed the connection; Stop the event loop
+2018-06-14 16:44:32,899 - INFO - manager - connection_lost - The server closed the connection; Stop the event loop
+2018-06-14 16:44:41,434 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 200, "action": "presence", "headers": {"time": 1528976681.433146}, "body": "User vasya found!"}'
+2018-06-14 16:44:41,436 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 401, "action": "join", "headers": {"time": 1528976681.4351466}, "body": "Action join denied until unauthorized"}'
+2018-06-14 16:44:50,235 - DEBUG - console_ui - render_message_from_server - processing b'{"code": 202, "action": "authenticate", "headers": {"time": 1528976690.2340262}, "body": "Authentication success! Welcome, vasya"}'

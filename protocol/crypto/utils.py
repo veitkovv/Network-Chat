@@ -3,6 +3,7 @@ from Cryptodome import Random
 from Cryptodome.Cipher import PKCS1_OAEP
 from Cryptodome.Hash import SHA256
 from protocol.settings import ENCODING
+import hmac
 
 
 class CipherRSA:
@@ -38,6 +39,10 @@ def get_hash(clear_text):
     h = SHA256.new()
     h.update(bytes_text)
     return h.hexdigest()
+
+
+def compare_hashes(one_hash, another_hash):
+    return hmac.compare_digest(one_hash, another_hash)
 
 
 def get_session_key(length):
