@@ -33,5 +33,8 @@ class BaseUI(metaclass=ABCMeta):
     def timestamp_to_normal_date(timestamp):
         return datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')
 
-    def request_account_name(self):
+    def request_account_name(self, dialog_message):
+        pass
+
+    def request_password(self, dialog_message):
         pass

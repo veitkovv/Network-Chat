@@ -5,7 +5,7 @@ from protocol.crypto.aes import CipherAes
 from protocol.crypto.utils import generate_rsa_pair, rsa_decipher_byte_string, rsa_cipher_byte_string
 from protocol.codes import *
 from server.core.user import User
-from server.core.actions_handler import action_handler
+from server.core.actions_handler import actions_handler
 from server.authentication_requiered import authentication_required
 
 
@@ -51,7 +51,7 @@ class AsyncServerManager(asyncio.Protocol):
 
     @authentication_required
     def process_action(self, client_request):
-        return action_handler[client_request.action](client_request)
+        return actions_handler[client_request.action](client_request)
 
     def process_message(self, message):
         if not self._aes.get_secret():

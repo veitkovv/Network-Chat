@@ -8,10 +8,9 @@ class Repo:
     def __init__(self, session):
         self._session = session
 
-    def add_user(self, user_name, password):
+    def add_user(self, user_name, password_hash):
         if not self.client_exists(user_name):
-            pass_hash = get_hash(password)
-            new_user = User(user_name, pass_hash)
+            new_user = User(user_name, password_hash)
             self._session.add(new_user)
             self._session.commit()
         else:

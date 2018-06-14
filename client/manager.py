@@ -5,6 +5,8 @@ from protocol.crypto.utils import public_key_from_bytes, rsa_cipher_byte_string,
 from protocol.client import Request, Response
 from client.log.logging import client_logger as log
 from client.core.response_handler import response_handler
+from protocol.codes import UNAUTHORIZED
+from protocol.crypto.utils import get_hash
 
 
 class AsyncClientManager(asyncio.Protocol):
@@ -46,11 +48,15 @@ class AsyncClientManager(asyncio.Protocol):
 
     def perform_presence(self):
         """Метод отправляет presence"""
-        account_name = self._user_interface.request_account_name()
-        if account_name:
-            self._user_interface.set_account_name(account_name)
-            presence = Request(action='presence', body=account_name)
-            self.send_message(presence)
+        account_name = self._user_interface.request_account_name('Введите имя пользователя: ')
+        self._user_interface.set_account_name(account_name)
+        presence = Request(action='presence', body=account_name)
+        self.send_message(presence)
+
+    def unauthorized_response(self):
+        password = self._user_interface.request_password(
+            f'{self._user_interface.get_active_account_name}, введите свой пароль: ')
+        return Request(action='authenticate', body=[self._user_interface.get_active_account_name, get_hash(password)])
 
     def process_message_manager(self, message):
         """
@@ -60,14 +66,17 @@ class AsyncClientManager(asyncio.Protocol):
         """
         if not self._pub_key:
             self.process_key_exchange(message)
-            self.perform_presence()
+            if not self._user_interface.get_active_account_name:
+                self.perform_presence()
         else:
             deciphered_message = self._aes.decrypt(message)
             server_response = Response(deciphered_message)
             try:
                 self._user_interface.render_message_from_server(deciphered_message)
-                new_request = response_handler[server_response.action](server_response,
-                                                                       self._user_interface.get_active_account_name)
+                if server_response.code == UNAUTHORIZED:
+                    new_request = self.unauthorized_response()
+                else:
+                    new_request = response_handler[server_response.action](server_response, self._user_interface)
                 self.send_message(new_request)
             except IndexError:
                 log.info(f'Action {server_response.action} do not allowed')

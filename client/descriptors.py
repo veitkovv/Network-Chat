@@ -17,3 +17,21 @@ class ActionName:
             raise ValueError('Action отсутствует в протоколе')
         else:
             instance.__dict__[self.action] = value
+
+
+# class AccountName:
+#     """
+#     Валидация account_name
+#     """
+#
+#     def __init__(self):
+#         self.name = None
+#
+#     def __get__(self, instance, owner):
+#         return instance.__dict__[self.name]
+#
+#     def __set__(self, instance, value):
+#         if re.match(ACCOUNT_NAME_PATTERN, value):
+#             instance.__dict__[self.name] = value
+#         else:
+#             raise ValueError('Имя учетной записи должно содержать латинские буквы и цифры')

@@ -8,7 +8,7 @@ class ConsoleClient(BaseUI):
 
     def __init__(self):
         self._active_chat = None
-        self._account_name = None
+        self._account_name = ''
 
     def display_chat_message(self):
         pass
@@ -28,8 +28,11 @@ class ConsoleClient(BaseUI):
     def display_chat_state(self):
         pass
 
-    def request_account_name(self):
-        return input('Введите имя пользователя: ')
+    def request_account_name(self, dialog_message):
+        return input(dialog_message)
+
+    def request_password(self, dialog_message):
+        return input(dialog_message)
 
     @property
     def get_active_chat_name(self):
