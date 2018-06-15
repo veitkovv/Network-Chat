@@ -7,7 +7,7 @@ from protocol.crypto.utils import compare_hashes
 db = Repo(session)
 
 
-def authenticate_processing(message, user_obj):
+def authenticate_processing(server_obj, message):
     """
     Отправляется клиентом при авторизации. содержит имя учетной записи и хеш пароля.
     Ответ сервера:
@@ -18,7 +18,7 @@ def authenticate_processing(message, user_obj):
     404 если клиент не найден в БД.
     500 - ошибка сервера
     :param message: Объект Request
-    :param user_obj: Объект User
+    :param server_obj: Объект server
     :return: Объект Response
     """
     account_name, password_hash = message.body
@@ -28,8 +28,7 @@ def authenticate_processing(message, user_obj):
     elif not password_hash:
         return Response(code=WRONG_REQUEST, action=message.action, body='Password must be present')
     elif compare_hashes(server_stored_password, password_hash):
-        user_obj.set_account_name(account_name)
-        user_obj.set_authenticated()
+        server_obj.authenticate(account_name)
         return Response(code=ACCEPTED, action=message.action, body=f'Authentication success! Welcome, {account_name}')
     elif not compare_hashes(server_stored_password, password_hash):
         return Response(code=UNAUTHORIZED, action=message.action, body='Wrong Password')

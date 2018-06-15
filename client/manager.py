@@ -61,7 +61,7 @@ class AsyncClientManager(asyncio.Protocol):
     def process_message_manager(self, message):
         """
         Метод обработки сообщений.
-        Если еше нет ключа, то запускается обмен ключами с сервером и отправляется presence
+        Если еще нет ключа, то запускается обмен ключами с сервером и отправляется presence
         в условии Else - расшифровывается сообщение и передается на обработку
         """
         if not self._pub_key:

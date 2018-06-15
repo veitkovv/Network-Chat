@@ -10,7 +10,6 @@ class User:
         self._transport = None
         self.public = None  # ключ rsa публичный
         self.private = None  # ключ rsa приватный
-        self._authenticated = False  # если клиент прошел аутентификацию
 
     def __repr__(self):
         return f'User Object: {self._account_name} : {self._transport}'
@@ -29,12 +28,3 @@ class User:
     def get_transport(self):
         return self._transport
 
-    def set_authenticated(self):
-        self._authenticated = True
-
-    def set_unauthenticated(self):
-        self._authenticated = False
-
-    @property
-    def is_authenticated(self):
-        return self._authenticated

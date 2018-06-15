@@ -1,2 +1,14 @@
-def join_processing(message, user_obj):
+def join_processing(server_obj, message):
+    """
+    Запрос на присоединение к чату. содержит имя чата (пустой join = дефолтный чат).
+    Ответ сервера:
+    200 - успешное присоединение к чату
+    400 - имя клиента или имя чата некорректно
+    404 - чат не найден
+    409 - пользователь уже в чате
+    500 - ошибка сервера
+    :param message:
+    :param server_obj:
+    :return:
+    """
     print(message)

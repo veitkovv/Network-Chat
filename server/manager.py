@@ -11,9 +11,19 @@ from server.authentication_requiered import authentication_required
 
 class AsyncServerManager(asyncio.Protocol):
     def __init__(self, chat_controller):
-        self._chat_controller = chat_controller
+        self.chat_controller = chat_controller
         self.user = User('Anonymous')
         self._aes = CipherAes('')  # Для шифрования AES
+        self._user_authenticated = False
+
+    def authenticate(self, account_name):
+        """Метод вызывается при успешной авторизации."""
+        self.user.set_account_name(account_name)
+        self._user_authenticated = True
+
+    @property
+    def is_authenticated(self):
+        return self._user_authenticated
 
     def connection_made(self, transport):
         """
@@ -50,8 +60,8 @@ class AsyncServerManager(asyncio.Protocol):
         self.user.get_transport.write(ciphered_message_with_len)
 
     @authentication_required
-    def process_action(self, client_request, user_obj):
-        return actions_handler[client_request.action](client_request, user_obj)
+    def process_action(self, client_request):
+        return actions_handler[client_request.action](self, client_request)
 
     def process_message(self, message):
         if not self._aes.get_secret():
@@ -64,7 +74,8 @@ class AsyncServerManager(asyncio.Protocol):
             print('processing message: ', decrypted_message)
             client_request = Request(decrypted_message)
             try:
-                self.send_message(self.process_action(client_request, self.user))
+                response_message = self.process_action(client_request)
+                self.send_message(response_message)
             except KeyError:
                 self.send_message(
                     Response(code=SERVER_ERROR, action=client_request.action,

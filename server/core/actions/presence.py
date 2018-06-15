@@ -8,7 +8,7 @@ import re
 db = Repo(session)
 
 
-def presence_processing(message, user_obj):
+def presence_processing(server_obj, message):
     """
     Отправляется клиентом при подключении к серверу, содержит имя учетной записи.
     Ответ сервера:
@@ -16,7 +16,7 @@ def presence_processing(message, user_obj):
     404 если клиент не найден в БД,
     500 - ошибка сервера
     :param message: Объект Request
-    :param user_obj: объект user
+    :param server_obj: объект Server
     :return: Объект Response
     """
     client_exists = db.client_exists(message.body)
