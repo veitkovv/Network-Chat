@@ -1,6 +1,6 @@
 from server.database.schema import User, Contact, UserMessage
+from server.core.exceptions import UserNotFoundInDatabase
 from server.database.errors import ContactDoesNotExist, ContactAlreadyInDatabase
-from protocol.crypto.utils import get_hash
 import datetime
 
 
@@ -18,7 +18,10 @@ class Repo:
 
     def client_exists(self, user_name):
         result = self._session.query(User).filter(User.account_name == user_name).count() > 0
-        return result
+        if not result:
+            raise UserNotFoundInDatabase(f'User {user_name} is not found in database')
+        else:
+            return result
 
     def contact_exists(self, user_name, contact_name):
         """Проверка, есть ли контакт"""

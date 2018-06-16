@@ -1,6 +1,6 @@
 from protocol.metaclass import Singleton
 from server.settings import DEFAULT_CHAT
-from protocol.exceptions import ChatNotFound, UserAlreadyInChat
+from server.core.exceptions import ChatNotFound, UserAlreadyInChat
 from server.descriptors import AccountName
 
 

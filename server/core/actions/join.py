@@ -1,7 +1,7 @@
 from protocol.server import Response
 from protocol.codes import *
 from server.settings import DEFAULT_CHAT
-from protocol.exceptions import ChatNotFound, UserAlreadyInChat
+from server.core.exceptions import ChatNotFound, UserAlreadyInChat, UserNameIncorrect
 
 
 def join_processing(server_obj, message):
@@ -23,6 +23,6 @@ def join_processing(server_obj, message):
     try:
         server_obj.chat_controller.add_user_to_chat(account_name, chat_name)
         return Response(code=OK, action=message.action,
-                        body=f'User "{account_name}" was successful added to chat "{chat_name}""')
-    except (ChatNotFound, UserAlreadyInChat) as e:
+                        body=f'User "{account_name}" successfully added to chat >> {chat_name}')
+    except (ChatNotFound, UserAlreadyInChat, UserNameIncorrect) as e:
         return Response(code=e.code, action=message.action, body=e.text)

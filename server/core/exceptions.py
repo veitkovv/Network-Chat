@@ -32,3 +32,8 @@ class UserAlreadyInChat(BaseError):
         super().__init__(code=CONFLICT)
         self.text = text
 
+
+class UserNotFoundInDatabase(BaseError):
+    def __init__(self, text):
+        super().__init__(code=NOT_FOUND)
+        self.text = text
