@@ -1,6 +1,7 @@
 from protocol.server import Response
 from protocol.codes import *
 from server.settings import DEFAULT_CHAT
+from protocol.exceptions import ChatNotFound, UserAlreadyInChat
 
 
 def join_processing(server_obj, message):
@@ -14,14 +15,14 @@ def join_processing(server_obj, message):
     500 - ошибка сервера
     :param message:
     :param server_obj:
-    :return:
     """
-    print('=' * 100)
-
     account_name = server_obj.user.get_account_name
     chat_name = message.body
     if not chat_name:
         chat_name = DEFAULT_CHAT
-
-    server_obj.chat_controller.add_user_to_chat(account_name, chat_name)
-    return Response(code=OK, action=message.action, body=f'User {account_name} success joined to chat {chat_name}')
+    try:
+        server_obj.chat_controller.add_user_to_chat(account_name, chat_name)
+        return Response(code=OK, action=message.action,
+                        body=f'User "{account_name}" was successful added to chat "{chat_name}""')
+    except (ChatNotFound, UserAlreadyInChat) as e:
+        return Response(code=e.code, action=message.action, body=e.text)
