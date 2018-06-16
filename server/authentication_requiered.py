@@ -11,6 +11,8 @@ def authentication_required(func):
             if not server_obj.is_authenticated:
                 return Response(code=UNAUTHORIZED, action=request.action,
                                 body=f'Action {request.action} denied until unauthorized')
+            else:
+                return func(server_obj, request)
         else:
             return func(server_obj, request)
 
