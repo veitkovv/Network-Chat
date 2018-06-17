@@ -21,7 +21,9 @@ def join_processing(server_obj, message):
         chat_name = DEFAULT_CHAT
     try:
         server_obj.chat_controller.add_user_to_chat(account_name, chat_name)
-        return Response(code=OK, action=message.action,
-                        body=f'User "{account_name}" successfully added to chat >> {chat_name}')
+        response = Response(code=OK, action=message.action,
+                            body=f'User "{account_name}" successfully added to chat "{chat_name}"')
+        response.add_header('name', chat_name)
+        return response
     except (ChatNotFound, UserAlreadyInChat) as e:
         return Response(code=e.code, action=message.action, body=e.text)

@@ -38,6 +38,9 @@ class ConsoleClient(BaseUI):
     def get_active_chat_name(self):
         return self._active_chat
 
+    def set_active_chat_name(self, chat):
+        self._active_chat = chat
+
     @property
     def get_active_account_name(self):
         return self._account_name
