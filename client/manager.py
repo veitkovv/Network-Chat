@@ -48,14 +48,14 @@ class AsyncClientManager(asyncio.Protocol):
 
     def perform_presence(self):
         """Метод отправляет presence"""
-        account_name = self._user_interface.request_account_name('Введите имя пользователя: ')
+        account_name = self._user_interface.request_account_name('Type your account name: ')
         self._user_interface.set_account_name(account_name)
         presence = Request(action='presence', body=account_name)
         self.send_message(presence)
 
     def unauthorized_response(self):
         password = self._user_interface.request_password(
-            f'{self._user_interface.get_active_account_name}, введите свой пароль: ')
+            f'{self._user_interface.get_active_account_name}, please type your password: ')
         return Request(action='authenticate', body=[self._user_interface.get_active_account_name, get_hash(password)])
 
     def process_message_manager(self, message):
@@ -92,8 +92,9 @@ class AsyncClientManager(asyncio.Protocol):
         """Метод для отправки введенных данных с клавиатуры"""
         while True:
             msg = await loop.run_in_executor(None, input, self._user_interface.user_input_string)
-            print(msg)
-            # self.send_message(msg.encode())
+            request = self._user_interface.keyboard_input_actions_manager(msg)
+            if isinstance(request, Request):
+                self.send_message(request)
 
     # async def get_iu_messages(self, loop):
     #     def executor():

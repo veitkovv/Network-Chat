@@ -19,12 +19,12 @@ if __name__ == "__main__":
     coro = loop.create_server(lambda: AsyncServerManager(chat_controller), HOST, PORT, ssl=sc)
     server = loop.run_until_complete(coro)
 
-    start_msg = 'Сервер запущен {}:{}'.format(*server.sockets[0].getsockname())
+    start_msg = 'Serving connections on: {}:{}'.format(*server.sockets[0].getsockname())
     print(start_msg)
     try:
         loop.run_forever()
     except KeyboardInterrupt:
-        stop_msg = 'Сервер остановлен {}:{}'.format(*server.sockets[0].getsockname())
+        stop_msg = 'Stopping server: {}:{}'.format(*server.sockets[0].getsockname())
         server.close()
         loop.run_until_complete(server.wait_closed())
         loop.close()

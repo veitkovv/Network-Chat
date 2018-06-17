@@ -16,9 +16,9 @@ class Port:
 
     def __set__(self, instance, value):
         if value > 65535:
-            raise ValueError('Некорректное значение порта. Должно быть меньше 65535')
+            raise ValueError('Incorrect Port Value. It must be < 65535')
         elif value < 1024:
-            raise ValueError('Некорректное значение порта. Нельзя занимать порты меньше 1024')
+            raise ValueError('Incorrect Port Value. Port nums greater then 1024 do not allowed')
         else:
             instance.__dict__[self.tcp_port] = value
 
@@ -36,8 +36,9 @@ class AccountName:
 
     def __set__(self, instance, value):
         if 0 > len(value) > ACCOUNT_NAME_MAX_LEN:
-            raise UserNameIncorrect(f'Имя учетной записи должно быть менее {ACCOUNT_NAME_MAX_LEN} символов, и больше 0')
+            raise UserNameIncorrect(
+                f'Account name length must be between 0 and {ACCOUNT_NAME_MAX_LEN}. Your length: {len(value)}')
         elif not re.match(ACCOUNT_NAME_PATTERN, value):
-            raise UserNameIncorrect('Имя учетной записи должно содержать латинские буквы и цифры')
+            raise UserNameIncorrect('Account name must contain only latin letters and numbers')
         else:
             instance.__dict__[self.name] = value

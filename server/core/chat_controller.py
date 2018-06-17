@@ -27,9 +27,9 @@ class ChatController(metaclass=Singleton):
         :param chat_name:
         """
         if chat_name not in self.get_list_chats:
-            raise ChatNotFound(f'Chat {chat_name} does not exists')
+            raise ChatNotFound(f'Chat "{chat_name}" does not exists.')
         elif account_name in self.get_list_users(chat_name):
-            raise UserAlreadyInChat(f'User {account_name} already in chat!')
+            raise UserAlreadyInChat(f'User "{account_name}" already in chat "{chat_name}".')
         else:
             self._chats[chat_name].append(account_name)
 
