@@ -49,15 +49,15 @@ class AsyncServerManager(asyncio.Protocol):
     def data_received(self, data):
         """
         При получении потока байт метод берет длинну сообщения из начала и расклеивает сообщения,
-        которые могли быть склеенными. Отдельные сообщения помещаются в очередь
+        которые могли быть склеенными.
         """
         for message in pick_messages_from_stream(data):
             self.process_message(message)
 
-    def send_message(self, message):
+    def send_message(self, message, user_obj):
         """Дописывает в начало длинну сообщения, и затем отправляет"""
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self._aes))
-        self.user.get_transport.write(ciphered_message_with_len)
+        user_obj.get_transport.write(ciphered_message_with_len)
 
     @authentication_required
     def process_action(self, client_request):
@@ -75,8 +75,8 @@ class AsyncServerManager(asyncio.Protocol):
             client_request = Request(decrypted_message)
             try:
                 response_message = self.process_action(client_request)
-                self.send_message(response_message)
+                self.send_message(response_message, self.user)
             except KeyError:
                 self.send_message(
                     Response(code=SERVER_ERROR, action=client_request.action,
-                             body=f'Action {client_request.action} do not allowed (not implemented yet)'))
+                             body=f'Action {client_request.action} do not allowed (not implemented yet)'), self.user)

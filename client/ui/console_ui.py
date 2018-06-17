@@ -8,8 +8,13 @@ class ConsoleClient(BaseUI):
     def __init__(self):
         super().__init__()
 
-    def display_chat_message(self):
-        pass
+    def display_chat_message(self, message):
+        response_obj = Response(message)
+        print(f'\n'
+              f'CHAT MESSAGE {response_obj.headers["recipient"]}:'
+              f'<< <{self.timestamp_to_normal_date(response_obj.headers["time"])}> '
+              f'<FROM USER: {response_obj.headers["sender"]}> '
+              f'{response_obj.body}')
 
     def display_private_message(self):
         pass
@@ -102,8 +107,9 @@ class ConsoleClient(BaseUI):
         elif user_input_message == '/exit' or user_input_message == '/quit' or user_input_message == '/logout':
             raise KeyboardInterrupt
         else:
-            # по умолчанию - сообщение в текущий чат
-            action_msg = Request(action='msg', body=user_input_message)
-            action_msg.add_header('recipient', self.get_active_chat_name)
-            action_msg.add_header('sender', self.get_active_account_name)
-            return action_msg
+            if self.get_active_chat_name is not None:
+                # по умолчанию - сообщение в текущий чат
+                action_msg = Request(action='msg', body=user_input_message)
+                action_msg.add_header('recipient', self.get_active_chat_name)
+                action_msg.add_header('sender', self.get_active_account_name)
+                return action_msg

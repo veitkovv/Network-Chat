@@ -9,7 +9,7 @@ class BaseUI(metaclass=ABCMeta):
         self._account_name = ''
 
     @abstractmethod
-    def display_chat_message(self):
+    def display_chat_message(self, message):
         pass
 
     @abstractmethod

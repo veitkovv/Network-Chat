@@ -15,14 +15,13 @@ def join_processing(server_obj, message):
     :param message:
     :param server_obj:
     """
-    account_name = server_obj.user.get_account_name
     chat_name = message.body
-    if not chat_name:
+    if not chat_name:  # Если приходит пустой join - понимаем как default chat
         chat_name = DEFAULT_CHAT
     try:
-        server_obj.chat_controller.add_user_to_chat(account_name, chat_name)
+        server_obj.chat_controller.add_user_to_chat(server_obj.user, chat_name)
         response = Response(code=OK, action=message.action,
-                            body=f'User "{account_name}" successfully added to chat "{chat_name}"')
+                            body=f'User "{server_obj.user.get_account_name}" successfully added to chat "{chat_name}"')
         response.add_header('name', chat_name)
         return response
     except (ChatNotFound, UserAlreadyInChat) as e:

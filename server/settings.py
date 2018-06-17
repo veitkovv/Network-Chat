@@ -5,7 +5,7 @@ ENCODING = 'utf-8'
 
 ACCOUNT_NAME_PATTERN = '^[A-Za-z0-9]+$'
 ACCOUNT_NAME_MAX_LEN = 31
-DEFAULT_CHAT = 'all'
+DEFAULT_CHAT = '#all'
 AUTHENTICATION_REQUIRED_ACTIONS = (
     'msg',
     'join',
