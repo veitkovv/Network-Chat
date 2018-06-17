@@ -19,8 +19,8 @@ def presence_processing(server_obj, message):
     :return: Объект Response
     """
     try:
-        server_obj.user.set_account_name(message.body)  # проверяем валидность
-        db.client_exists(message.body)  # ищем в базе
-        return Response(code=OK, action=message.action, body=f'User {message.body} successfully found! Wow')
+        server_obj.user.set_account_name(message.body)  # проверяем валидность через дескриптор
+        if db.client_exists(message.body):  # ищем в базе
+            return Response(code=OK, action=message.action, body=f'User {message.body} successfully found! Wow')
     except (UserNameIncorrect, UserNotFoundInDatabase) as e:
         return Response(code=e.code, action=message.action, body=e.text)

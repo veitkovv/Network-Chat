@@ -1,7 +1,8 @@
 from server.database.db_utils import Repo
 from server.database.schema import session
 from protocol.server import Response
-from protocol.codes import WRONG_REQUEST, SERVER_ERROR, NOT_FOUND, ACCEPTED, UNAUTHORIZED
+from server.core.exceptions import UserNameIncorrect, UserNotFoundInDatabase, EmptyHashValue, PasswordsDidntMatch
+from protocol.codes import ACCEPTED
 from protocol.crypto.utils import compare_hashes
 
 db = Repo(session)
@@ -22,15 +23,12 @@ def authenticate_processing(server_obj, message):
     :return: Объект Response
     """
     account_name, password_hash = message.body
-    server_stored_password = db.get_client_by_username(account_name).password
-    if server_stored_password is None:
-        return Response(code=NOT_FOUND, action=message.action, body=f'User "{account_name}" not found')
-    elif not password_hash:
-        return Response(code=WRONG_REQUEST, action=message.action, body='Password must be present')
-    elif compare_hashes(server_stored_password, password_hash):
-        server_obj.authenticate(account_name)
-        return Response(code=ACCEPTED, action=message.action, body=f'Authentication success! Welcome, {account_name}')
-    elif not compare_hashes(server_stored_password, password_hash):
-        return Response(code=UNAUTHORIZED, action=message.action, body='Wrong Password')
-    else:
-        return Response(code=SERVER_ERROR, action=message.action, body=f'Server Error! message: {message}')
+    try:
+        server_obj.user.set_account_name(account_name)  # проверяем валидность имени
+        server_stored_password = db.get_client_by_username(account_name).password  # ищем пароль в БД
+        if compare_hashes(server_stored_password, password_hash):
+            server_obj.authenticate(account_name)
+            return Response(code=ACCEPTED, action=message.action,
+                            body=f'Authentication success! Welcome, {account_name}')
+    except (UserNameIncorrect, UserNotFoundInDatabase, EmptyHashValue, PasswordsDidntMatch) as e:
+        return Response(code=e.code, action=message.action, body=e.text)

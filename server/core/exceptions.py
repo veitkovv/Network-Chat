@@ -37,3 +37,21 @@ class UserNotFoundInDatabase(BaseError):
     def __init__(self, text):
         super().__init__(code=NOT_FOUND)
         self.text = text
+
+
+class EmptyHashValue(BaseError):
+    def __init__(self, text):
+        super().__init__(code=WRONG_REQUEST)
+        self.text = text
+
+
+class PasswordsDidntMatch(BaseError):
+    def __init__(self, text):
+        super().__init__(code=WRONG_REQUEST)
+        self.text = text
+
+
+class UserAlreadyInDatabase(BaseError):
+    def __init__(self, text):
+        super().__init__(code=CONFLICT)
+        self.text = text

@@ -3,6 +3,7 @@ from Cryptodome import Random
 from Cryptodome.Cipher import PKCS1_OAEP
 from Cryptodome.Hash import SHA256
 from protocol.settings import ENCODING
+from server.core.exceptions import EmptyHashValue, PasswordsDidntMatch
 import hmac
 
 
@@ -42,7 +43,18 @@ def get_hash(clear_text):
 
 
 def compare_hashes(one_hash, another_hash):
-    return hmac.compare_digest(one_hash, another_hash)
+    """
+    Сначала проверяем есть ли значения,
+    затем сравниваем, выбрасываем исключение если пароли не совпадают.
+    возвращаем True если совпадают
+    """
+    if not one_hash or not another_hash:
+        raise EmptyHashValue(f'Неверное значение сравниваемых значений')
+    password_match = hmac.compare_digest(one_hash, another_hash)
+    if not password_match:
+        raise PasswordsDidntMatch(f'Неверный пароль')
+    else:
+        return password_match
 
 
 def get_session_key(length):

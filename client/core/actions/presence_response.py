@@ -15,6 +15,6 @@ def presence_response_processing(response_message, ui_instance):
         ui_instance.set_account_name(new_account_name)
         return Request(action='presence', body=new_account_name)
     elif response_message.code == SERVER_ERROR:
-        pass  # just show the message, nothing to do # TODO возможно, стоит рендерить сообщения здесь
+        pass  # just show the message, nothing to do
     else:
         print(f'Неизвестная ошибка! Сообщение: {response_message}')

@@ -1,7 +1,6 @@
 from protocol.metaclass import Singleton
 from server.settings import DEFAULT_CHAT
 from server.core.exceptions import ChatNotFound, UserAlreadyInChat
-from server.descriptors import AccountName
 
 
 class ChatController(metaclass=Singleton):
@@ -27,11 +26,6 @@ class ChatController(metaclass=Singleton):
         :param account_name:
         :param chat_name:
         """
-        # Валидация имени пользователя через дескриптор
-        # Если user не применится - выбросит exception , который обработается в handle
-        account_name_attr = AccountName()
-        account_name_attr.name = account_name
-
         if chat_name not in self.get_list_chats:
             raise ChatNotFound(f'Chat {chat_name} does not exists')
         elif account_name in self.get_list_users(chat_name):

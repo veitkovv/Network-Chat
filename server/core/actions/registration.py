@@ -1,8 +1,8 @@
 from server.database.db_utils import Repo
 from server.database.schema import session
+from server.core.exceptions import UserNameIncorrect, UserAlreadyInDatabase
 from protocol.server import Response
-from protocol.codes import WRONG_REQUEST, CONFLICT, CREATED
-from server.database.errors import ContactAlreadyInDatabase
+from protocol.codes import CREATED
 
 db = Repo(session)
 
@@ -20,14 +20,9 @@ def registration_processing(server_obj, message):
     :return: Объект Response
     """
     account_name, hash_password = message.body
-    if not account_name or not hash_password:
-        return Response(code=WRONG_REQUEST, action=message.action,
-                        body=f'Account Name "{account_name}" or password incorrect')
-    elif db.client_exists(account_name):
-        return Response(code=CONFLICT, action=message.action, body=f'User {account_name} already exists')
-    else:
-        try:
-            db.add_user(account_name, hash_password)
-            return Response(code=CREATED, action=message.action, body=f'User {account_name} registration success!')
-        except ContactAlreadyInDatabase:
-            return Response(code=CONFLICT, action=message.action, body=f'User {account_name} already exists in db')
+    try:
+        server_obj.user.set_account_name(account_name)  # проверяем валидность через дескриптор
+        db.add_user(account_name, hash_password)
+        return Response(code=CREATED, action=message.action, body=f'User {account_name} registration success!')
+    except (UserNameIncorrect, UserAlreadyInDatabase) as e:
+        return Response(code=e.code, action=message.action, body=e.text)

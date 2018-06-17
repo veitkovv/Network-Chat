@@ -1,6 +1,6 @@
 from server.database.schema import User, Contact, UserMessage
-from server.core.exceptions import UserNotFoundInDatabase
-from server.database.errors import ContactDoesNotExist, ContactAlreadyInDatabase
+from server.core.exceptions import UserNotFoundInDatabase, UserAlreadyInDatabase
+from server.database.errors import ContactDoesNotExist
 import datetime
 
 
@@ -8,18 +8,20 @@ class Repo:
     def __init__(self, session):
         self._session = session
 
-    def add_user(self, user_name, password_hash):
-        if not self.client_exists(user_name):
-            new_user = User(user_name, password_hash)
+    def add_user(self, user_name, hash_password):
+        try:
+            self.client_exists(user_name)
+        except UserNotFoundInDatabase:
+            new_user = User(user_name, hash_password)
             self._session.add(new_user)
             self._session.commit()
         else:
-            raise ContactAlreadyInDatabase(user_name)
+            raise UserAlreadyInDatabase(f'User "{user_name}" already registered on the server')
 
     def client_exists(self, user_name):
         result = self._session.query(User).filter(User.account_name == user_name).count() > 0
         if not result:
-            raise UserNotFoundInDatabase(f'User {user_name} is not found in database')
+            raise UserNotFoundInDatabase(f'User "{user_name}" is not found in database')
         else:
             return result
 
@@ -33,8 +35,9 @@ class Repo:
 
     def get_client_by_username(self, account_name):
         """Получение клиента по имени"""
-        client = self._session.query(User).filter(User.account_name == account_name).first()
-        return client
+        if self.client_exists(account_name):
+            client = self._session.query(User).filter(User.account_name == account_name).first()
+            return client
 
     def get_client_username_by_id(self, user_id):
         """Имя клиента по id"""
