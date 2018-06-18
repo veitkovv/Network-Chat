@@ -33,7 +33,7 @@ class ChatController(metaclass=Singleton):
     def delete_user_from_chat(self, user, chat_name=DEFAULT_CHAT):
         self._chats[chat_name].remove(user)
 
-    def get_list_users(self, chat_name):
+    def get_list_users(self, chat_name=DEFAULT_CHAT):
         return self._chats[chat_name]
 
     @property

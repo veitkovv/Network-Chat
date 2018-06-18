@@ -13,7 +13,7 @@ class BaseUI(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def display_private_message(self):
+    def display_private_message(self, message):
         pass
 
     @abstractmethod

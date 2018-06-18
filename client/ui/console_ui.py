@@ -15,8 +15,12 @@ class ConsoleClient(BaseUI):
                      f'{message.body}'
         print(out_string)
 
-    def display_private_message(self):
-        pass
+    def display_private_message(self, message):
+        out_string = f'\nPRIVATE MESSAGE ' \
+                     f'<{self.timestamp_to_normal_date(message.headers["time"])}> ' \
+                     f'<FROM USER: {message.headers["sender"]}> ' \
+                     f'{message.body}'
+        print(out_string)
 
     def display_contact_list(self):
         pass
