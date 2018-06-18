@@ -1,8 +1,7 @@
 import asyncio
 from protocol.byte_stream_handler import pick_messages_from_stream, append_message_len_to_message
 from protocol.server import Request, Response
-from protocol.crypto.aes import CipherAes
-from protocol.crypto.utils import generate_rsa_pair, rsa_decipher_byte_string, rsa_cipher_byte_string
+from protocol.crypto.utils import generate_rsa_pair, rsa_decipher_byte_string
 from protocol.codes import *
 from server.core.user import User
 from server.core.actions_handler import actions_handler
@@ -13,17 +12,6 @@ class AsyncServerManager(asyncio.Protocol):
     def __init__(self, chat_controller):
         self.chat_controller = chat_controller
         self.user = User('Anonymous')
-        self._aes = CipherAes('')  # Для шифрования AES
-        self._user_authenticated = False
-
-    def authenticate(self, account_name):
-        """Метод вызывается при успешной авторизации."""
-        self.user.set_account_name(account_name)
-        self._user_authenticated = True
-
-    @property
-    def is_authenticated(self):
-        return self._user_authenticated
 
     def connection_made(self, transport):
         """
@@ -54,29 +42,24 @@ class AsyncServerManager(asyncio.Protocol):
         for message in pick_messages_from_stream(data):
             self.process_message(message)
 
-    def send_message(self, message, user_obj):
-        """Дописывает в начало длинну сообщения, и затем отправляет"""
-        ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self._aes))
-        user_obj.get_transport.write(ciphered_message_with_len)
-
     @authentication_required
     def process_action(self, client_request):
         return actions_handler[client_request.action](self, client_request)
 
     def process_message(self, message):
-        if not self._aes.get_secret():
+        if not self.user.aes.get_secret:
             # Первое сообщение от клиента - зашифрованный публичным ключем RSA ключ сессии,
             # которым будут шифроваться все последующие сообщения
             decrypted_key = rsa_decipher_byte_string(message, self.user.private)
-            self._aes.set_secret(decrypted_key)
+            self.user.aes.set_secret(decrypted_key)
         else:
-            decrypted_message = self._aes.decrypt(message)
+            decrypted_message = self.user.aes.decrypt(message)
             print('processing message: ', decrypted_message)
             client_request = Request(decrypted_message)
             try:
                 response_message = self.process_action(client_request)
-                self.send_message(response_message, self.user)
+                self.user.send_message(response_message)
             except KeyError:
-                self.send_message(
+                self.user.send_message(
                     Response(code=SERVER_ERROR, action=client_request.action,
-                             body=f'Action {client_request.action} do not allowed (not implemented yet)'), self.user)
+                             body=f'Action {client_request.action} do not allowed (not implemented yet)'))

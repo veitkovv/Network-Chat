@@ -8,7 +8,7 @@ def authentication_required(func):
     @wraps(func)
     def inner_function(server_obj, request):
         if request.action in AUTHENTICATION_REQUIRED_ACTIONS:  # actions must be in authorized tuple
-            if not server_obj.is_authenticated:
+            if not server_obj.user.is_authenticated:
                 return Response(code=UNAUTHORIZED, action=request.action,
                                 body=f'Action {request.action} denied until unauthorized')
             else:

@@ -9,12 +9,11 @@ class ConsoleClient(BaseUI):
         super().__init__()
 
     def display_chat_message(self, message):
-        response_obj = Response(message)
-        print(f'\n'
-              f'CHAT MESSAGE {response_obj.headers["recipient"]}:'
-              f'<< <{self.timestamp_to_normal_date(response_obj.headers["time"])}> '
-              f'<FROM USER: {response_obj.headers["sender"]}> '
-              f'{response_obj.body}')
+        out_string = f'CHAT MESSAGE {message.headers["recipient"]}: ' \
+                     f'<{self.timestamp_to_normal_date(message.headers["time"])}> ' \
+                     f'<FROM USER: {message.headers["sender"]}> ' \
+                     f'{message.body}\r'
+        print(out_string)
 
     def display_private_message(self):
         pass
@@ -63,10 +62,10 @@ class ConsoleClient(BaseUI):
     def render_message_from_server(self, message):
         log.debug(f'processing {message}')
         response_obj = Response(message)
-        print(f'\n'
-              f'SERVER MESSAGE:<< <{self.timestamp_to_normal_date(response_obj.headers["time"])}> '
-              f'<ACTION: {response_obj.action}> '
-              f'<CODE: {response_obj.code}> : {response_obj.body}')
+        if not response_obj.action == 'msg':
+            print(f'SERVER MESSAGE:<< <{self.timestamp_to_normal_date(response_obj.headers["time"])}> '
+                  f'<ACTION: {response_obj.action}> '
+                  f'<CODE: {response_obj.code}> : {response_obj.body}')
 
     def keyboard_input_actions_manager(self, user_input_message):
         """

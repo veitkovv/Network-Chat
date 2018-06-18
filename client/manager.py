@@ -40,7 +40,7 @@ class AsyncClientManager(asyncio.Protocol):
         # Сохраняем публичный ключ, которым будем шифровать ключ длля симметричного шифра
         self._pub_key = public_key_from_bytes(received_rsa_public_key)
         # Шифруем ключ сессии публичным ключем
-        ciphered_session_key = rsa_cipher_byte_string(self._aes.get_secret(), self._pub_key)
+        ciphered_session_key = rsa_cipher_byte_string(self._aes.get_secret, self._pub_key)
         # Длинна сообщения в начало сообщения
         ciphered_session_key_with_len = append_message_len_to_message(ciphered_session_key)
         # Отправляем ключ, которым будут шифроваться все последующие ссообщения

@@ -27,7 +27,7 @@ def authenticate_processing(server_obj, message):
         server_obj.user.set_account_name(account_name)  # проверяем валидность имени
         server_stored_password = db.get_client_by_username(account_name).password  # ищем пароль в БД
         if compare_hashes(server_stored_password, password_hash):
-            server_obj.authenticate(account_name)
+            server_obj.user.authenticate()
             return Response(code=ACCEPTED, action=message.action,
                             body=f'Authentication success! Welcome, {account_name}')
     except (UserNameIncorrect, UserNotFoundInDatabase, EmptyHashValue, PasswordsDidntMatch) as e:

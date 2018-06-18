@@ -10,6 +10,7 @@ class CipherAes:
     def set_secret(self, secret):
         self._secret = secret
 
+    @property
     def get_secret(self):
         return self._secret
 
