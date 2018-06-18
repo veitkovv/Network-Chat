@@ -104,10 +104,16 @@ class ConsoleClient(BaseUI):
         elif user_input_message.startswith('/chatlist'):
             return Request(action='get_chats', body='')
         elif user_input_message.startswith('/join'):
-            chat_name = user_input_message.split(' ')[1]
+            try:
+                chat_name = user_input_message.split(' ')[1]
+            except IndexError:
+                chat_name = ''
             return Request(action='join', body=chat_name)
         elif user_input_message.startswith('/leave'):
-            chat_name = user_input_message.split(' ')[1]
+            try:
+                chat_name = user_input_message.split(' ')[1]
+            except IndexError:
+                chat_name = ''
             return Request(action='leave', body=chat_name)
         elif user_input_message.startswith('?'):
             self.print_help()

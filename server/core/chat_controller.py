@@ -26,7 +26,7 @@ class ChatController(metaclass=Singleton):
         if chat_name not in self.get_chats.keys():
             raise ChatNotFound(f'Chat "{chat_name}" does not exists.')
         elif user_obj in self.get_list_users(chat_name):
-            raise UserAlreadyInChat(f'User "{user_obj}" already in chat "{chat_name}".')
+            raise UserAlreadyInChat(f'User "{user_obj.get_account_name}" already a member {chat_name}.')
         else:
             self._chats[chat_name].append(user_obj)
 
