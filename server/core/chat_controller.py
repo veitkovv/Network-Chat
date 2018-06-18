@@ -1,6 +1,6 @@
 from protocol.metaclass import Singleton
 from server.settings import DEFAULT_CHAT
-from server.core.exceptions import ChatNotFound, UserAlreadyInChat
+from server.core.exceptions import ChatNotFound, UserAlreadyInChat, ChatDoesNotExist
 
 
 class ChatController(metaclass=Singleton):
@@ -34,9 +34,11 @@ class ChatController(metaclass=Singleton):
         self._chats[chat_name].remove(user)
 
     def get_list_users(self, chat_name=DEFAULT_CHAT):
-        return self._chats[chat_name]
+        try:
+            return self._chats[chat_name]
+        except KeyError:
+            raise ChatDoesNotExist(f'Chat {chat_name} does not exist')
 
     @property
     def get_chats(self):
         return self._chats
-

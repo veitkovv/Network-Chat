@@ -17,6 +17,10 @@ class BaseUI(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def display_error(self, message):
+        pass
+
+    @abstractmethod
     def display_contact_list(self):
         pass
 
