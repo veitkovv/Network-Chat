@@ -17,6 +17,7 @@ def msg_processing(server_obj, message):
         response_message = Response(code=BASIC_NOTICE, action=message.action, body=message.body)
         response_message.add_header('recipient', recipient)
         response_message.add_header('sender', message.headers['sender'])
+        # TODO async for
         for chat_member in server_obj.chat_controller.get_list_users(recipient):
             chat_member.send_message(response_message)
         return Response(code=BASIC_NOTICE, action=message.action, body='Message was sent successful')

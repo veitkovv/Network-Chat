@@ -28,11 +28,13 @@ class AsyncServerManager(asyncio.Protocol):
     def connection_lost(self, exc):
         user_disconnected_message = f'{self.user.get_account_name} отключился'
         print(user_disconnected_message)
-        # json_user_disconnected_message = Response(action='msg', code=BASIC_NOTICE, body=user_disconnected_message)
-        # for chat in self._chat_controller.get_list_chats:
-        #     self._chat_controller.delete_user_from_chat(chat, self.user)
-        #     for user in self._chat_controller.get_list_users(chat):
-        #         pass  # send to chats
+        response_user_disconnected = Response(action='leave', code=IMPORTANT_NOTICE, body=user_disconnected_message)
+        for chat_name in self.chat_controller.get_chats:
+            # Удаляем из чатов юзера, который отключился
+            self.chat_controller.delete_user_from_chat(self.user, chat_name)
+            for user in self.chat_controller.get_list_users(chat_name):
+                # оповещаем юзеров в чатах об этом событии
+                user.send_message(response_user_disconnected)
 
     def data_received(self, data):
         """

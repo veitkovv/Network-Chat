@@ -13,4 +13,3 @@ def join_response_processing(response_message, ui_instance):
         chat_name = response_message.headers['name']
         # print([method_name for method_name in dir(ui_instance) if callable(getattr(ui_instance, method_name))])
         ui_instance.set_active_chat_name(chat_name)
-        ui_instance.print_help()

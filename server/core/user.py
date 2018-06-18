@@ -16,7 +16,7 @@ class User:
         self._user_authenticated = False
 
     def __repr__(self):
-        return f'User Object: {self._account_name} : {self._transport}'
+        return f'User Object: {self._account_name} {self._transport}'
 
     def set_account_name(self, account_name):
         self._account_name = account_name
@@ -41,7 +41,10 @@ class User:
         return self._user_authenticated
 
     def send_message(self, message):
-        """Дописывает в начало длинну сообщения, и затем отправляет"""
+        """
+        Дописывает в начало длинну сообщения, и затем отправляет
+        :param message - объект Response
+        """
         # print(f'Sending {message} to {user_obj.get_account_name}')
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self.aes))
         self.get_transport.write(ciphered_message_with_len)

@@ -11,4 +11,5 @@ def authenticate_response_processing(response_message, ui_instance):
         new_password = ui_instance.request_password('Type new password: ')
         return Request(action='registration', body=[ui_instance.get_active_account_name, get_hash(new_password)])
     elif response_message.code == ACCEPTED:
+        ui_instance.print_help()
         return Request(action='join', body='')

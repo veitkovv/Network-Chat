@@ -9,10 +9,10 @@ class ConsoleClient(BaseUI):
         super().__init__()
 
     def display_chat_message(self, message):
-        out_string = f'CHAT MESSAGE {message.headers["recipient"]}: ' \
+        out_string = f'\nCHAT MESSAGE {message.headers["recipient"]}: ' \
                      f'<{self.timestamp_to_normal_date(message.headers["time"])}> ' \
                      f'<FROM USER: {message.headers["sender"]}> ' \
-                     f'{message.body}\r'
+                     f'{message.body}'
         print(out_string)
 
     def display_private_message(self):
