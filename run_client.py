@@ -1,7 +1,8 @@
-from client.manager import AsyncClientManager
-from client.cli_args import CliArgs
 import asyncio
 import ssl
+
+from client.manager import AsyncClientManager
+from client.cli_args import CliArgs
 from client.ui.console_ui import ConsoleClient
 from client.ui.qt_gui_client import QtGuiClient
 
