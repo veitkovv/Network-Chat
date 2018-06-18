@@ -1,6 +1,5 @@
 from server.database.schema import User, Contact, UserMessage
-from server.core.exceptions import UserNotFoundInDatabase, UserAlreadyInDatabase
-from server.database.errors import ContactDoesNotExist
+from server.core.exceptions import UserNotFoundInDatabase, UserAlreadyInDatabase, ContactAlreadyExists
 import datetime
 
 
@@ -50,14 +49,16 @@ class Repo:
         if contact:
             client = self.get_client_by_username(client_username)
             if client:
-                client_contact = Contact(user_id=client.id, contact_id=contact.id)
-                self._session.add(client_contact)
-                self._session.commit()
+                if not self.contact_exists(client_username, contact_username):
+                    client_contact = Contact(user_id=client.id, contact_id=contact.id)
+                    self._session.add(client_contact)
+                    self._session.commit()
+                else:
+                    raise ContactAlreadyExists(f'Contact {contact_username} already in contact list')
             else:
-                # raise NoneClientError(client_username)
-                pass
+                raise UserNotFoundInDatabase(f'Error! User {client_username} not found')
         else:
-            raise ContactDoesNotExist(contact_username)
+            raise UserNotFoundInDatabase(f'User {contact_username} does not registered on this server')
 
     def del_contact(self, client_username, contact_username):
         """Удаление контакта"""
@@ -74,7 +75,8 @@ class Repo:
                 # raise NoneClientError(client_username)
                 pass
         else:
-            raise ContactDoesNotExist(contact_username)
+            # raise ContactDoesNotExist(contact_username)
+            pass
 
     def get_contacts(self, client_username):
         """Получение контактов клиента"""

@@ -9,4 +9,9 @@ DEFAULT_CHAT = '#all'
 AUTHENTICATION_REQUIRED_ACTIONS = (
     'msg',
     'join',
+    'leave',
+    'add_contact',
+    'del_contact',
+    'get_contacts',
+    'get_chats',
 )

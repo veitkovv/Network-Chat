@@ -61,3 +61,9 @@ class ChatDoesNotExist(BaseError):
     def __init__(self, text):
         super().__init__(code=NOT_FOUND)
         self.text = text
+
+
+class ContactAlreadyExists(BaseError):
+    def __init__(self, text):
+        super().__init__(code=CONFLICT)
+        self.text = text
