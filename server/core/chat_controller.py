@@ -1,6 +1,7 @@
 from protocol.metaclass import Singleton
 from server.settings import DEFAULT_CHAT
-from server.core.exceptions import ChatNotFound, UserAlreadyInChat, ChatDoesNotExist
+from server.core.exceptions import (ChatNotFound, UserAlreadyInChat, ChatDoesNotExist, NoChatNameError, UserNotAMember,
+                                    DefaultChatLeaveError)
 
 
 class ChatController(metaclass=Singleton):
@@ -30,8 +31,15 @@ class ChatController(metaclass=Singleton):
         else:
             self._chats[chat_name].append(user_obj)
 
-    def delete_user_from_chat(self, user, chat_name=DEFAULT_CHAT):
-        self._chats[chat_name].remove(user)
+    def delete_user_from_chat(self, user_obj, chat_name):
+        if not chat_name:
+            raise NoChatNameError('Error! Empty Chat Name!')
+        elif user_obj not in self.get_list_users(chat_name):
+            raise UserNotAMember(f'User {user_obj.get_account_name} not a member of chat {chat_name}')
+        elif chat_name == DEFAULT_CHAT:
+            raise DefaultChatLeaveError(f'Error! You can\'t leave default chat {DEFAULT_CHAT}')
+        else:
+            self._chats[chat_name].remove(user_obj)
 
     def get_list_users(self, chat_name=DEFAULT_CHAT):
         try:

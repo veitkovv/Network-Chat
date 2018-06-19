@@ -73,3 +73,21 @@ class ContactDoesNotExist(BaseError):
     def __init__(self, text):
         super().__init__(code=NOT_FOUND)
         self.text = text
+
+
+class NoChatNameError(BaseError):
+    def __init__(self, text):
+        super().__init__(code=WRONG_REQUEST)
+        self.text = text
+
+
+class UserNotAMember(BaseError):
+    def __init__(self, text):
+        super().__init__(code=WRONG_REQUEST)
+        self.text = text
+
+
+class DefaultChatLeaveError(BaseError):
+    def __init__(self, text):
+        super().__init__(code=WRONG_REQUEST)
+        self.text = text

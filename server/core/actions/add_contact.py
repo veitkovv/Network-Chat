@@ -19,6 +19,6 @@ def add_contact_processing(server_obj, message):
     contact = message.body
     try:
         db.add_contact(user, contact)
-        return Response(code=OK, action=message.action, body=f'Contact {contact} successfully added to contact list')
+        return Response(code=OK, action=message.action, body=f'Contact {contact} was successfully added to contact list')
     except (ContactAlreadyExists, UserNotFoundInDatabase) as e:
         return Response(code=e.code, action=message.action, body=e.text)

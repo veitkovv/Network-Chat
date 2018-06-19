@@ -20,6 +20,6 @@ def del_contact_processing(server_obj, message):
     try:
         db.del_contact(user, contact)
         return Response(code=OK, action=message.action,
-                        body=f'Contact {contact} has successfully deleted from contact list')
+                        body=f'Contact {contact} was successfully deleted from contact list')
     except (ContactDoesNotExist, UserNotFoundInDatabase) as e:
         return Response(code=e.code, action=message.action, body=e.text)

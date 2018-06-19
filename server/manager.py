@@ -6,6 +6,7 @@ from protocol.codes import *
 from server.core.user import User
 from server.core.actions_handler import actions_handler
 from server.authentication_requiered import authentication_required
+from server.core.exceptions import DefaultChatLeaveError
 
 
 class AsyncServerManager(asyncio.Protocol):
@@ -33,7 +34,10 @@ class AsyncServerManager(asyncio.Protocol):
             print(user_disconnected_message)
             response_user_disconnected = Response(action='leave', code=IMPORTANT_NOTICE, body=user_disconnected_message)
             # Удаляем из чатов юзера, который отключился
-            self.chat_controller.delete_user_from_chat(self.user, chat_name)
+            try:
+                self.chat_controller.delete_user_from_chat(self.user, chat_name)
+            except DefaultChatLeaveError:
+                pass  # Этот чат покинуть можно только во время потери соединения
             for user in self.chat_controller.get_list_users(chat_name):
                 # оповещаем юзеров в чатах об этом событии
                 user.send_message(response_user_disconnected)
