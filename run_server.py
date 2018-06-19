@@ -1,8 +1,9 @@
 import asyncio
+import ssl
+
 from server.cli_args import GetHostAndPort
 from server.manager import AsyncServerManager
 from server.core.chat_controller import ChatController
-import ssl
 
 if __name__ == "__main__":
     cli_args = GetHostAndPort()  # args parse
