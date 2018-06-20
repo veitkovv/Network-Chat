@@ -45,6 +45,6 @@ class User:
         Дописывает в начало длинну сообщения, и затем отправляет
         :param message - объект Response
         """
-        # print(f'Sending {message} to {user_obj.get_account_name}')
+        print(f'Sending {message} to {self.get_account_name}')
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self.aes))
         self.get_transport.write(ciphered_message_with_len)

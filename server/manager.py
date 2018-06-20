@@ -28,7 +28,7 @@ class AsyncServerManager(asyncio.Protocol):
 
     def connection_lost(self, exc):
         """При потере коннекта пользователь удаляется из всех чатов, остальным приходит оповещение об этом"""
-        print(f'Lost connection with client {self.user.get_account_name}')
+        print(f'Lost connection with client {self.user.get_account_name}. Reason: {exc}')
         for chat_name in self.chat_controller.get_chats:
             user_disconnected_message = f'{self.user.get_account_name} has left chat {chat_name}'
             print(user_disconnected_message)
@@ -41,6 +41,7 @@ class AsyncServerManager(asyncio.Protocol):
             for user in self.chat_controller.get_list_users(chat_name):
                 # оповещаем юзеров в чатах об этом событии
                 user.send_message(response_user_disconnected)
+        self.user.get_transport.close()
 
     def data_received(self, data):
         """

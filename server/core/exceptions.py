@@ -91,3 +91,9 @@ class DefaultChatLeaveError(BaseError):
     def __init__(self, text):
         super().__init__(code=WRONG_REQUEST)
         self.text = text
+
+
+class NoContactsYet(BaseError):
+    def __init__(self, text):
+        super().__init__(code=NOT_FOUND)
+        self.text = text

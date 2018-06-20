@@ -1,7 +1,8 @@
+from time import time
+
 from client.ui.base import BaseUI
 from client.log.logging import client_logger as log
 from protocol.client import Request, Response
-from time import time
 
 
 class ConsoleClient(BaseUI):
@@ -71,9 +72,10 @@ class ConsoleClient(BaseUI):
         log.debug(f'processing {message}')
         response_obj = Response(message)
         if not response_obj.action == 'msg':
-            print(f'<{self.timestamp_to_normal_date(response_obj.headers["time"])}> SERVER MESSAGE: '
-                  f'<ACTION: {response_obj.action}> '
-                  f'<CODE: {response_obj.code}> : {response_obj.body}')
+            server_message = f'<{self.timestamp_to_normal_date(response_obj.headers["time"])}> SERVER MESSAGE: ' \
+                             f'<ACTION: {response_obj.action}> ' \
+                             f'<CODE: {response_obj.code}> : {response_obj.body}'
+            print(server_message)
 
     def keyboard_input_actions_manager(self, user_input_message):
         """

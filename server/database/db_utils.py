@@ -1,6 +1,6 @@
 from server.database.schema import User, Contact, UserMessage
 from server.core.exceptions import (UserNotFoundInDatabase, UserAlreadyInDatabase, ContactAlreadyExists,
-                                    ContactDoesNotExist)
+                                    ContactDoesNotExist, NoContactsYet)
 import datetime
 
 
@@ -87,6 +87,8 @@ class Repo:
         if client:
             # Тут нету relationship поэтому берем запросом
             contacts_clients = self._session.query(Contact).filter(Contact.user_id == client.id)
+            if not contacts_clients:
+                raise NoContactsYet('You have no contacts')
             for contact_client in contacts_clients:
                 contact = self._session.query(User).filter(User.id == contact_client.contact_id).first()
                 result.append(contact)

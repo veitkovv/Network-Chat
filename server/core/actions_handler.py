@@ -6,6 +6,7 @@ from server.core.actions.msg import msg_processing
 from server.core.actions.add_contact import add_contact_processing
 from server.core.actions.del_contact import del_contact_processing
 from server.core.actions.leave import leave_processing
+from server.core.actions.get_contacts import get_contact_processing
 
 actions_handler = {
     'presence': presence_processing,
@@ -16,4 +17,5 @@ actions_handler = {
     'add_contact': add_contact_processing,
     'del_contact': del_contact_processing,
     'leave': leave_processing,
+    'get_contacts': get_contact_processing,
 }
