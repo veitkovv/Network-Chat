@@ -22,7 +22,6 @@ def get_contact_processing(server_obj, message):
         for contact in contacts:
             contact_response = Response(code=IMPORTANT_NOTICE, action=message.action, body=contact.account_name)
             contact_response.add_header('quantity', contacts_count)
-            contact_response.add_header('current_contact_left', contacts_count)
             contacts_count -= 1
             server_obj.user.send_message(contact_response)
         return Response(code=OK, action=message.action, body=f'Contact list were send to {user}')
