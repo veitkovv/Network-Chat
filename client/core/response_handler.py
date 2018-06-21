@@ -3,6 +3,7 @@ from client.core.actions.registration_response import registration_response_proc
 from client.core.actions.authenticate_response import authenticate_response_processing
 from client.core.actions.join_response import join_response_processing
 from client.core.actions.msg_response import msg_response_processing
+from client.core.actions.get_contacts_response import get_contacts_response_processing
 
 response_handler = {
     'presence': presence_response_processing,
@@ -10,4 +11,5 @@ response_handler = {
     'authenticate': authenticate_response_processing,
     'join': join_response_processing,
     'msg': msg_response_processing,
+    'get_contacts': get_contacts_response_processing,
 }

@@ -24,7 +24,7 @@ def authenticate_processing(server_obj, message):
     """
     account_name, password_hash = message.body
     try:
-        server_obj.user.set_account_name(account_name)  # проверяем валидность имени
+        server_obj.user.account_name = account_name  # проверяем валидность имени
         server_stored_password = db.get_client_by_username(account_name).password  # ищем пароль в БД
         if compare_hashes(server_stored_password, password_hash):
             server_obj.user.authenticate()

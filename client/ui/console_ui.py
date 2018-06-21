@@ -47,7 +47,7 @@ class ConsoleClient(BaseUI):
 
     @property
     def user_input_string(self):
-        return f'{self.timestamp_to_normal_date(time())}: {self.get_active_account_name}: {self.get_active_chat_name}>>'
+        return f'{self.timestamp_to_normal_date(time())}: {self.account_name}: {self.current_chat}>>'
 
     @staticmethod
     def print_help():
@@ -71,7 +71,7 @@ class ConsoleClient(BaseUI):
     def render_message_from_server(self, message):
         log.debug(f'processing {message}')
         response_obj = Response(message)
-        if not response_obj.action == 'msg':
+        if not response_obj.action == 'msg' and not response_obj.action == 'get_contacts':
             server_message = f'<{self.timestamp_to_normal_date(response_obj.headers["time"])}> SERVER MESSAGE: ' \
                              f'<ACTION: {response_obj.action}> ' \
                              f'<CODE: {response_obj.code}> : {response_obj.body}'
@@ -87,13 +87,13 @@ class ConsoleClient(BaseUI):
             recipient = user_input_message.split(' ')[0]
             action_msg = Request(action='msg', body=user_input_message[len(recipient):])
             action_msg.add_header('recipient', recipient)
-            action_msg.add_header('sender', self.get_active_account_name)
+            action_msg.add_header('sender', self.account_name)
             return action_msg
         elif user_input_message.startswith('#'):
             recipient = user_input_message.split(' ')[0]
             action_msg = Request(action='msg', body=user_input_message[len(recipient):])
             action_msg.add_header('recipient', recipient)
-            action_msg.add_header('sender', self.get_active_account_name)
+            action_msg.add_header('sender', self.account_name)
             return action_msg
         elif user_input_message.startswith('+'):
             new_contact = user_input_message.split(' ')[0][1:]
@@ -122,9 +122,9 @@ class ConsoleClient(BaseUI):
         elif user_input_message == '/exit' or user_input_message == '/quit' or user_input_message == '/logout':
             raise KeyboardInterrupt
         else:
-            if self.get_active_chat_name is not None:
+            if self.current_chat is not None:
                 # по умолчанию - сообщение в текущий чат
                 action_msg = Request(action='msg', body=user_input_message)
-                action_msg.add_header('recipient', self.get_active_chat_name)
-                action_msg.add_header('sender', self.get_active_account_name)
+                action_msg.add_header('recipient', self.current_chat)
+                action_msg.add_header('sender', self.account_name)
                 return action_msg

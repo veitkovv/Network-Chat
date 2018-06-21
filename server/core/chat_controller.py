@@ -9,6 +9,10 @@ class ChatController(metaclass=Singleton):
         self._chats = dict()  # {name: [user1, user2]}
         self._chats.update({DEFAULT_CHAT: []})  # создаем чат all , где будут все пользователи
 
+    @property
+    def chats(self):
+        return self._chats
+
     def create_chat(self, chat_name):
         if not chat_name.startswith('#'):
             chat_name = f'#{chat_name}'
@@ -24,10 +28,10 @@ class ChatController(metaclass=Singleton):
         :param user_obj:
         :param chat_name:
         """
-        if chat_name not in self.get_chats.keys():
+        if chat_name not in self.chats.keys():
             raise ChatNotFound(f'Chat "{chat_name}" does not exists.')
         elif user_obj in self.get_list_users(chat_name):
-            raise UserAlreadyInChat(f'User "{user_obj.get_account_name}" already a member {chat_name}.')
+            raise UserAlreadyInChat(f'User "{user_obj.account_name}" already a member {chat_name}.')
         else:
             self._chats[chat_name].append(user_obj)
 
@@ -35,7 +39,7 @@ class ChatController(metaclass=Singleton):
         if not chat_name:
             raise NoChatNameError('Error! Empty Chat Name!')
         elif user_obj not in self.get_list_users(chat_name):
-            raise UserNotAMember(f'User {user_obj.get_account_name} not a member of chat {chat_name}')
+            raise UserNotAMember(f'User {user_obj.account_name} not a member of chat {chat_name}')
         elif chat_name == DEFAULT_CHAT:
             raise DefaultChatLeaveError(f'Error! You can\'t leave default chat {DEFAULT_CHAT}')
         else:
@@ -46,7 +50,3 @@ class ChatController(metaclass=Singleton):
             return self._chats[chat_name]
         except KeyError:
             raise ChatDoesNotExist(f'Chat {chat_name} does not exist')
-
-    @property
-    def get_chats(self):
-        return self._chats

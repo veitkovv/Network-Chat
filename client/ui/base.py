@@ -7,6 +7,7 @@ class BaseUI(metaclass=ABCMeta):
     def __init__(self):
         self._active_chat = None
         self._account_name = ''
+        self._contact_list = list()
 
     @abstractmethod
     def display_chat_message(self, message):
@@ -50,18 +51,31 @@ class BaseUI(metaclass=ABCMeta):
         pass
 
     @property
-    def get_active_chat_name(self):
-        return self._active_chat
-
-    def set_active_chat_name(self, chat):
-        if not chat.startswith('#'):
-            self._active_chat = '#' + chat
-        else:
-            self._active_chat = chat
-
-    @property
-    def get_active_account_name(self):
+    def account_name(self):
         return self._account_name
 
-    def set_account_name(self, account_name):
-        self._account_name = account_name
+    @account_name.setter
+    def account_name(self, value):
+        self._account_name = value
+
+    @property
+    def current_chat(self):
+        return self._active_chat
+
+    @current_chat.setter
+    def current_chat(self, value):
+        """Названия чатов должны начинаться с # """
+        if not value.startswith('#'):
+            self._active_chat = '#' + value
+        else:
+            self._active_chat = value
+
+    @property
+    def contact_list(self):
+        return self._contact_list
+
+    def add_contact_to_list(self, contact_name_to_add):
+        self._contact_list.append(contact_name_to_add)
+
+    def del_contact_from_list(self, contact_name_to_remove):
+        self._contact_list.remove(contact_name_to_remove)

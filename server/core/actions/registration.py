@@ -21,7 +21,7 @@ def registration_processing(server_obj, message):
     """
     account_name, hash_password = message.body
     try:
-        server_obj.user.set_account_name(account_name)  # проверяем валидность через дескриптор
+        server_obj.user.account_name = account_name  # проверяем валидность через дескриптор
         db.add_user(account_name, hash_password)
         return Response(code=CREATED, action=message.action, body=f'User {account_name} registration success!')
     except (UserNameIncorrect, UserAlreadyInDatabase) as e:

@@ -18,9 +18,17 @@ class AsyncClientManager(asyncio.Protocol):
         self._aes = CipherAes('')
         self._user_interface = ui_instance  # UI консольный или GUI
 
+    @property
+    def pub_key(self):
+        return self._pub_key
+
+    @pub_key.setter
+    def pub_key(self, key):
+        self._pub_key = key
+
     def connection_made(self, transport):
         self._transport = transport
-        self._aes.set_secret(get_session_key(32))
+        self._aes.secret = get_session_key(32)
 
     def data_received(self, data):
         if data:
@@ -38,9 +46,9 @@ class AsyncClientManager(asyncio.Protocol):
         :return:
         """
         # Сохраняем публичный ключ, которым будем шифровать ключ длля симметричного шифра
-        self._pub_key = public_key_from_bytes(received_rsa_public_key)
+        self.pub_key = public_key_from_bytes(received_rsa_public_key)
         # Шифруем ключ сессии публичным ключем
-        ciphered_session_key = rsa_cipher_byte_string(self._aes.get_secret, self._pub_key)
+        ciphered_session_key = rsa_cipher_byte_string(self._aes.secret, self.pub_key)
         # Длинна сообщения в начало сообщения
         ciphered_session_key_with_len = append_message_len_to_message(ciphered_session_key)
         # Отправляем ключ, которым будут шифроваться все последующие ссообщения
@@ -49,14 +57,14 @@ class AsyncClientManager(asyncio.Protocol):
     def perform_presence(self):
         """Метод отправляет presence"""
         account_name = self._user_interface.request_account_name('Type your account name: ')
-        self._user_interface.set_account_name(account_name)
+        self._user_interface.account_name = account_name
         presence = Request(action='presence', body=account_name)
         self.send_message(presence)
 
     def unauthorized_response(self):
         password = self._user_interface.request_password(
-            f'{self._user_interface.get_active_account_name}, please type your password: ')
-        return Request(action='authenticate', body=[self._user_interface.get_active_account_name, get_hash(password)])
+            f'{self._user_interface.account_name}, please type your password: ')
+        return Request(action='authenticate', body=[self._user_interface.account_name, get_hash(password)])
 
     def process_message_manager(self, message):
         """
@@ -64,9 +72,9 @@ class AsyncClientManager(asyncio.Protocol):
         Если еще нет ключа, то запускается обмен ключами с сервером и отправляется presence
         в условии Else - расшифровывается сообщение и передается на обработку
         """
-        if not self._pub_key:
+        if not self.pub_key:
             self.process_key_exchange(message)
-            if not self._user_interface.get_active_account_name:
+            if not self._user_interface.account_name:
                 self.perform_presence()
         else:
             deciphered_message = self._aes.decrypt(message)

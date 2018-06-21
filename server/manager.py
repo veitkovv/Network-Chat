@@ -21,16 +21,16 @@ class AsyncServerManager(asyncio.Protocol):
         2) Генерируем пару ключей
         3) Отправляем клиенту публичный ключ
         """
-        self.user.set_transport(transport)
+        self.user.transport = transport
         self.user.public, self.user.private = generate_rsa_pair()
         key = append_message_len_to_message(self.user.public.exportKey())
-        self.user.get_transport.write(key)
+        self.user.transport.write(key)
 
     def connection_lost(self, exc):
         """При потере коннекта пользователь удаляется из всех чатов, остальным приходит оповещение об этом"""
-        print(f'Lost connection with client {self.user.get_account_name}. Reason: {exc}')
-        for chat_name in self.chat_controller.get_chats:
-            user_disconnected_message = f'{self.user.get_account_name} has left chat {chat_name}'
+        print(f'Lost connection with client {self.user.account_name}. Reason: {exc}')
+        for chat_name in self.chat_controller.chats:
+            user_disconnected_message = f'{self.user.account_name} has left chat {chat_name}'
             print(user_disconnected_message)
             response_user_disconnected = Response(action='leave', code=IMPORTANT_NOTICE, body=user_disconnected_message)
             # Удаляем из чатов юзера, который отключился
@@ -41,7 +41,7 @@ class AsyncServerManager(asyncio.Protocol):
             for user in self.chat_controller.get_list_users(chat_name):
                 # оповещаем юзеров в чатах об этом событии
                 user.send_message(response_user_disconnected)
-        self.user.get_transport.close()
+        self.user.transport.close()
 
     def data_received(self, data):
         """
@@ -56,11 +56,11 @@ class AsyncServerManager(asyncio.Protocol):
         return actions_handler[client_request.action](self, client_request)
 
     def process_message(self, message):
-        if not self.user.aes.get_secret:
+        if not self.user.aes.secret:
             # Первое сообщение от клиента - зашифрованный публичным ключем RSA ключ сессии,
             # которым будут шифроваться все последующие сообщения
             decrypted_key = rsa_decipher_byte_string(message, self.user.private)
-            self.user.aes.set_secret(decrypted_key)
+            self.user.aes.secret = decrypted_key
         else:
             decrypted_message = self.user.aes.decrypt(message)
             print('processing message: ', decrypted_message)

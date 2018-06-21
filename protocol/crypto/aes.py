@@ -7,12 +7,13 @@ class CipherAes:
     def __init__(self, secret):
         self._secret = secret
 
-    def set_secret(self, secret):
-        self._secret = secret
-
     @property
-    def get_secret(self):
+    def secret(self):
         return self._secret
+
+    @secret.setter
+    def secret(self, value):
+        self._secret = value
 
     @staticmethod
     def padding_text(text):

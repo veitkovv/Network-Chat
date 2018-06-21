@@ -18,33 +18,43 @@ class User:
     def __repr__(self):
         return f'User Object: {self._account_name} {self._transport}'
 
-    def set_account_name(self, account_name):
-        self._account_name = account_name
-
     @property
-    def get_account_name(self):
+    def account_name(self):
         return self._account_name
 
-    def set_transport(self, transport):
-        self._transport = transport
+    @account_name.setter
+    def account_name(self, value):
+        self._account_name = value
 
     @property
-    def get_transport(self):
+    def transport(self):
         return self._transport
 
-    def authenticate(self):
-        """Метод вызывается при успешной авторизации."""
-        self._user_authenticated = True
+    @transport.setter
+    def transport(self, value):
+        self._transport = value
 
     @property
     def is_authenticated(self):
         return self._user_authenticated
+
+    def authenticate(self):
+        """Метод вызывается при успешной авторизации."""
+        self._user_authenticated = True
 
     def send_message(self, message):
         """
         Дописывает в начало длинну сообщения, и затем отправляет
         :param message - объект Response
         """
-        print(f'Sending {message} to {self.get_account_name}')
+        # print(f'Sending {message} to {self.account_name}')
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self.aes))
-        self.get_transport.write(ciphered_message_with_len)
+        self.transport.write(ciphered_message_with_len)
+
+    def send_bulk_messages(self, list_messages):
+        # TODO
+        ciphered_list = [append_message_len_to_message(message.to_cipher_bytes(self.aes)) for message in list_messages]
+        for message in ciphered_list:
+            self.transport.write(message)
+        # print(ciphered_list)
+        # self.get_transport.writelines(ciphered_list)

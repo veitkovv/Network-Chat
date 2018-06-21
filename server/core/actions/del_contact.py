@@ -15,7 +15,7 @@ def del_contact_processing(server_obj, message):
     # 400 - имя клиента или контакта отсутствует или некорректно
     # 409 - контакта не существует в списке.
     """
-    user = server_obj.user.get_account_name
+    user = server_obj.user.account_name
     contact = message.body
     try:
         db.del_contact(user, contact)
