@@ -28,6 +28,7 @@ def get_contact_processing(server_obj, message):
             contact_response = Response(code=IMPORTANT_NOTICE, action=message.action, body=contact.account_name)
             # contact_response.add_header('quantity', contacts_count)
             response_messages.append(contact_response)
+        print('actual contact list:', contacts)
         server_obj.user.send_bulk_messages(response_messages)
         return Response(code=OK, action=message.action, body=f'Contact list were send to {user}')
     except (NoContactsYet,) as e:
