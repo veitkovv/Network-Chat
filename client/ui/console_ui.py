@@ -27,8 +27,11 @@ class ConsoleClient(BaseUI):
         print(f'<{self.timestamp_to_normal_date(message.headers["time"])}> '
               f'Error! {message.body}')
 
-    def display_contact_list(self):
-        pass
+    def display_contact_list(self, message):
+        print(message.headers)
+        print(f'your contact list: \n')
+        for contact in message.body:
+            print(f'== {contact} ==\n')
 
     def display_presence(self):
         pass

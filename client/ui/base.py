@@ -22,7 +22,7 @@ class BaseUI(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def display_contact_list(self):
+    def display_contact_list(self, message):
         pass
 
     @abstractmethod

@@ -19,15 +19,23 @@ class AsyncClientManager(asyncio.Protocol):
         self._user_interface = ui_instance  # UI консольный или GUI
 
     @property
+    def transport(self):
+        return self._transport
+
+    @transport.setter
+    def transport(self, value):
+        self._transport = value
+
+    @property
     def pub_key(self):
         return self._pub_key
 
     @pub_key.setter
-    def pub_key(self, key):
-        self._pub_key = key
+    def pub_key(self, value):
+        self._pub_key = value
 
     def connection_made(self, transport):
-        self._transport = transport
+        self.transport = transport
         self._aes.secret = get_session_key(32)
 
     def data_received(self, data):
@@ -37,6 +45,7 @@ class AsyncClientManager(asyncio.Protocol):
 
     def connection_lost(self, exc):
         log.info('The server closed the connection; Stop the event loop')
+        self.transport.close()
         self.loop.stop()
 
     def process_key_exchange(self, received_rsa_public_key):
@@ -94,7 +103,7 @@ class AsyncClientManager(asyncio.Protocol):
     def send_message(self, message):
         """Дописывает в начало длинну сообщения, и затем отправляет"""
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self._aes))
-        self._transport.write(ciphered_message_with_len)
+        self.transport.write(ciphered_message_with_len)
 
     async def get_console_messages(self, loop):
         """Метод для отправки введенных данных с клавиатуры"""

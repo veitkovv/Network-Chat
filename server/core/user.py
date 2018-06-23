@@ -50,11 +50,3 @@ class User:
         # print(f'Sending {message} to {self.account_name}')
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self.aes))
         self.transport.write(ciphered_message_with_len)
-
-    def send_bulk_messages(self, list_messages):
-        # TODO
-        ciphered_list = [append_message_len_to_message(message.to_cipher_bytes(self.aes)) for message in list_messages]
-        for message in ciphered_list:
-            self.transport.write(message)
-        # print(ciphered_list)
-        # self.get_transport.writelines(ciphered_list)

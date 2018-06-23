@@ -18,6 +18,7 @@ if __name__ == "__main__":
     sc.load_cert_chain('protocol\cert\chat.cert', 'protocol\cert\chat.key')
 
     coro = loop.create_server(lambda: AsyncServerManager(chat_controller), HOST, PORT, ssl=sc)
+
     server = loop.run_until_complete(coro)
 
     start_msg = 'Serving connections on: {}:{}'.format(*server.sockets[0].getsockname())

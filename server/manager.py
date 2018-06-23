@@ -68,6 +68,7 @@ class AsyncServerManager(asyncio.Protocol):
             try:
                 response_message = self.process_action(client_request)
                 self.user.send_message(response_message)
+
             except KeyError:
                 self.user.send_message(
                     Response(code=SERVER_ERROR, action=client_request.action,
