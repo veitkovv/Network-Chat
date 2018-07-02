@@ -40,10 +40,10 @@ class MainWindow(QMainWindow):
     @pyqtSlot(bytes)
     def render_message_from_server(self, message):
         response_obj = Response(message)
-        server_message = f'{self._ui_controller.timestamp_to_normal_date(response_obj.headers["time"])} ' \
+        server_message = f'[{self._ui_controller.timestamp_to_normal_date(response_obj.headers["time"])}] ' \
                          f'SERVER MESSAGE: ' \
-                         f'ACTION: {response_obj.action} ' \
-                         f'CODE: {response_obj.code} : {response_obj.body}'
+                         f'ACTION: {response_obj.action}; ' \
+                         f'CODE: {response_obj.code}; : {response_obj.body}'
         self.ui.chatMessages.insertHtml(f'<font color="red">{server_message}</font><br>')
 
     @staticmethod

@@ -11,20 +11,20 @@ class ConsoleClient(BaseUI):
 
     def display_chat_message(self, message):
         out_string = f'\nCHAT MESSAGE {message.headers["recipient"]}: ' \
-                     f'<{self.timestamp_to_normal_date(message.headers["time"])}> ' \
+                     f'[{self.timestamp_to_normal_date(message.headers["time"])}] ' \
                      f'<FROM USER: {message.headers["sender"]}> ' \
                      f'{message.body}'
         print(out_string)
 
     def display_private_message(self, message):
         out_string = f'\nPRIVATE MESSAGE ' \
-                     f'<{self.timestamp_to_normal_date(message.headers["time"])}> ' \
+                     f'[{self.timestamp_to_normal_date(message.headers["time"])}] ' \
                      f'<FROM USER: {message.headers["sender"]}> ' \
                      f'{message.body}'
         print(out_string)
 
     def display_error(self, message):
-        print(f'<{self.timestamp_to_normal_date(message.headers["time"])}> '
+        print(f'[{self.timestamp_to_normal_date(message.headers["time"])}] '
               f'Error! {message.body}')
 
     def display_contact_list(self, message):
@@ -75,7 +75,7 @@ class ConsoleClient(BaseUI):
         log.debug(f'processing {message}')
         response_obj = Response(message)
         if not response_obj.action == 'msg' and not response_obj.action == 'get_contacts':
-            server_message = f'<{self.timestamp_to_normal_date(response_obj.headers["time"])}> SERVER MESSAGE: ' \
+            server_message = f'[{self.timestamp_to_normal_date(response_obj.headers["time"])}] SERVER MESSAGE: ' \
                              f'<ACTION: {response_obj.action}> ' \
                              f'<CODE: {response_obj.code}> : {response_obj.body}'
             print(server_message)

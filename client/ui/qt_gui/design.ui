@@ -6,17 +6,46 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>921</width>
-    <height>630</height>
+    <width>1088</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Triangular</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="QTextEdit" name="chatMessages">
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Chat window&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="chatsSearch">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1" rowspan="2">
-     <widget class="QTreeView" name="contactTreeView">
+     <widget class="QTreeWidget" name="chatTreeWidget">
       <property name="maximumSize">
        <size>
         <width>200</width>
@@ -24,7 +53,37 @@
        </size>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Список контактов&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Chat list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="autoScroll">
+       <bool>false</bool>
+      </property>
+      <property name="rootIsDecorated">
+       <bool>true</bool>
+      </property>
+      <property name="animated">
+       <bool>false</bool>
+      </property>
+      <attribute name="headerVisible">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QTextEdit" name="inputMessage">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Input field&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
@@ -45,20 +104,23 @@
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Отправить сообщение&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton#Type1 {
      background-color: red;
      border-style: outset;
      border-width: 2px;
      border-radius: 10px;
-     border-color: beige;
+     border-color: blue;
      font: bold 14px;
      min-width: 10em;
      padding: 6px;
  }</string>
       </property>
       <property name="text">
-       <string>Отправить</string>
+       <string>Send message</string>
       </property>
       <property name="autoExclusive">
        <bool>false</bool>
@@ -74,27 +136,23 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QTextEdit" name="chatMessages">
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Окно чата&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QTextEdit" name="inputMessage">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Поле ввода сообщения&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
+    <item row="0" column="0">
+     <widget class="QWidget" name="buttonPanel" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Contacts</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -104,13 +162,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>921</width>
+     <width>1088</width>
      <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>Меню</string>
+     <string>Menu</string>
     </property>
     <widget class="QMenu" name="contactMenu">
      <property name="title">
@@ -127,7 +185,7 @@
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>Сообщения</string>
+     <string>Messages</string>
     </property>
     <addaction name="sendFileMenu"/>
     <addaction name="messageHistoryMenu"/>
@@ -151,22 +209,22 @@
   </action>
   <action name="addContactMenu">
    <property name="text">
-    <string>Добавить контакт</string>
+    <string>Add contact</string>
    </property>
   </action>
   <action name="delContact">
    <property name="text">
-    <string>Удалить контакт</string>
+    <string>Delete contact</string>
    </property>
   </action>
   <action name="searchContact">
    <property name="text">
-    <string>Поиск контакта</string>
+    <string>Search contact</string>
    </property>
   </action>
   <action name="messageHistoryMenu">
    <property name="text">
-    <string>История сообщений</string>
+    <string>Message History</string>
    </property>
   </action>
   <action name="loadAvatarMenu">
