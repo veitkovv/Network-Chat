@@ -1,13 +1,18 @@
-from abc import ABCMeta, abstractmethod
 import datetime
+
+from abc import ABCMeta, abstractmethod
 
 
 class BaseUI(metaclass=ABCMeta):
 
     def __init__(self):
         self._active_chat = None
-        self._account_name = ''
+        self._account_settings = {'account_name': '', 'password': ''}
         self._contact_list = list()
+
+    @abstractmethod
+    def render_message_from_server(self, message):
+        pass
 
     @abstractmethod
     def display_chat_message(self, message):
@@ -52,11 +57,19 @@ class BaseUI(metaclass=ABCMeta):
 
     @property
     def account_name(self):
-        return self._account_name
+        return self._account_settings['account_name']
 
     @account_name.setter
     def account_name(self, value):
-        self._account_name = value
+        self._account_settings['account_name'] = value
+
+    @property
+    def account_password(self):
+        return self._account_settings['password']
+
+    @account_password.setter
+    def account_password(self, value):
+        self._account_settings['password'] = value
 
     @property
     def current_chat(self):

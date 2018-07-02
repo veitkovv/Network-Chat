@@ -86,13 +86,8 @@ class ConsoleClient(BaseUI):
         :param user_input_message: введенный пользователем текст
         :return: Объект Request
         """
-        if user_input_message.startswith('@'):
-            recipient = user_input_message.split(' ')[0]
-            action_msg = Request(action='msg', body=user_input_message[len(recipient):])
-            action_msg.add_header('recipient', recipient)
-            action_msg.add_header('sender', self.account_name)
-            return action_msg
-        elif user_input_message.startswith('#'):
+        # TODO refactor this
+        if user_input_message.startswith('@') or user_input_message.startswith('#'):
             recipient = user_input_message.split(' ')[0]
             action_msg = Request(action='msg', body=user_input_message[len(recipient):])
             action_msg.add_header('recipient', recipient)

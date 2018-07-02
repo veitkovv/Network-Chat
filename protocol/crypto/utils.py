@@ -57,5 +57,5 @@ def compare_hashes(one_hash, another_hash):
         return password_match
 
 
-def get_session_key(length):
+def generate_session_key(length):
     return Random.get_random_bytes(length)

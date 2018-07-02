@@ -1,5 +1,5 @@
 from protocol.server import Response
-from protocol.codes import BASIC_NOTICE, SERVER_ERROR
+from protocol.codes import BASIC_NOTICE, SERVER_ERROR, NOT_FOUND
 from server.core.exceptions import ChatDoesNotExist
 
 
@@ -30,6 +30,8 @@ def msg_processing(server_obj, message):
                     user.send_message(response_message)
                     return Response(code=BASIC_NOTICE, action=message.action,
                                     body=f'Private message to {recipient} was sent successful')
+                else:
+                    return Response(code=NOT_FOUND, action=message.action, body=f'User {recipient} not online now')
         else:
             return Response(code=SERVER_ERROR, action=message.action, body='Server Error was happened')
     except (ChatDoesNotExist, ) as e:

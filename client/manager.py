@@ -1,22 +1,23 @@
 import asyncio
+
 from protocol.byte_stream_handler import pick_messages_from_stream, append_message_len_to_message
 from protocol.crypto.aes import CipherAes
-from protocol.crypto.utils import public_key_from_bytes, rsa_cipher_byte_string, get_session_key
+from protocol.crypto.utils import public_key_from_bytes, rsa_cipher_byte_string, generate_session_key
 from protocol.client import Request, Response
-from client.log.logging import client_logger as log
-from client.core.response_handler import response_handler
 from protocol.codes import UNAUTHORIZED
 from protocol.crypto.utils import get_hash
+from client.log.logging import client_logger as log
+from client.core.response_handler import response_handler
 
 
 class AsyncClientManager(asyncio.Protocol):
-    def __init__(self, loop, ui_instance):
+    def __init__(self, loop, ui_controller):
         super().__init__()
         self.loop = loop
         self._transport = None
         self._pub_key = ''
         self._aes = CipherAes('')
-        self._user_interface = ui_instance  # UI консольный или GUI
+        self._ui_controller = ui_controller  # UI консольный или GUI
 
     @property
     def transport(self):
@@ -36,7 +37,7 @@ class AsyncClientManager(asyncio.Protocol):
 
     def connection_made(self, transport):
         self.transport = transport
-        self._aes.secret = get_session_key(32)
+        self._aes.secret = generate_session_key(32)  # ключ 32 байта
 
     def data_received(self, data):
         if data:
@@ -52,7 +53,6 @@ class AsyncClientManager(asyncio.Protocol):
         """
         Метод шифрует публичным ключем ключ для симметричного шифрования AES , для дальнейшего обмена сообщениями
         :param received_rsa_public_key: публичный ключ RSA
-        :return:
         """
         # Сохраняем публичный ключ, которым будем шифровать ключ длля симметричного шифра
         self.pub_key = public_key_from_bytes(received_rsa_public_key)
@@ -65,15 +65,15 @@ class AsyncClientManager(asyncio.Protocol):
 
     def perform_presence(self):
         """Метод отправляет presence"""
-        account_name = self._user_interface.request_account_name('Type your account name: ')
-        self._user_interface.account_name = account_name
+        account_name = self._ui_controller.request_account_name('Type your account name: ')
+        self._ui_controller.account_name = account_name
         presence = Request(action='presence', body=account_name)
         self.send_message(presence)
 
     def unauthorized_response(self):
-        password = self._user_interface.request_password(
-            f'{self._user_interface.account_name}, please type your password: ')
-        return Request(action='authenticate', body=[self._user_interface.account_name, get_hash(password)])
+        password = self._ui_controller.request_password(
+            f'{self._ui_controller.account_name}, please type your password: ')
+        return Request(action='authenticate', body=[self._ui_controller.account_name, get_hash(password)])
 
     def process_message_manager(self, message):
         """
@@ -83,19 +83,19 @@ class AsyncClientManager(asyncio.Protocol):
         """
         if not self.pub_key:
             self.process_key_exchange(message)
-            if not self._user_interface.account_name:
+            if not self._ui_controller.account_name:
                 self.perform_presence()
         else:
             deciphered_message = self._aes.decrypt(message)
             server_response = Response(deciphered_message)
             try:
                 # Отображение ответа сервера
-                self._user_interface.render_message_from_server(deciphered_message)
+                self._ui_controller.render_message_from_server(deciphered_message)
                 # Чтобы не делать это в каждом action_response, проверяем авторизацию.
                 if server_response.code == UNAUTHORIZED:
                     new_request = self.unauthorized_response()
                 else:
-                    new_request = response_handler[server_response.action](server_response, self._user_interface)
+                    new_request = response_handler[server_response.action](server_response, self._ui_controller)
                 self.send_message(new_request)
             except IndexError:
                 log.info(f'Action {server_response.action} do not allowed')
@@ -108,8 +108,8 @@ class AsyncClientManager(asyncio.Protocol):
     async def get_console_messages(self, loop):
         """Метод для отправки введенных данных с клавиатуры"""
         while True:
-            msg = await loop.run_in_executor(None, input, self._user_interface.user_input_string)
-            request = self._user_interface.keyboard_input_actions_manager(msg)
+            msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
+            request = self._ui_controller.keyboard_input_actions_manager(msg)
             if isinstance(request, Request):
                 self.send_message(request)
 
