@@ -4,6 +4,12 @@ from protocol.crypto.utils import get_hash
 
 
 def authenticate_response_processing(response_message, ui_controller):
+    """
+    Обработка входящего от сервера authenticate
+    response_message: объект Response
+    ui_controller: объект контроллера для взаимодействия с ui
+    """
+
     if response_message.code == WRONG_REQUEST:
         password = ui_controller.request_password('Type your password: ')
         return Request(action='authenticate', body=[ui_controller.account_name, get_hash(password)])

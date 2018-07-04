@@ -7,7 +7,7 @@ from server.core.exceptions import (ChatNotFound, UserAlreadyInChat, ChatDoesNot
 class ChatController(metaclass=Singleton):
     def __init__(self):
         # {name: [user1, user2]}
-        # создаем чат all , где будут все пользователи
+        # при инициализации создается глобальный чат #all , где будут все пользователи
         self._chats = {DEFAULT_CHAT: []}
 
     @property

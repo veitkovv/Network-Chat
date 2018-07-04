@@ -83,7 +83,7 @@ class ConsoleClient(BaseUI):
                              f'<CODE: {response_obj.code}> : {response_obj.body}'
             print(server_message)
 
-    def keyboard_input_actions_manager(self, user_input_message):
+    def input_actions_manager(self, user_input_message):
         """
         Парсит ввод клавиатуры (согласно help), определяя тип сообщения, которое нужно отправить на сервер.
         :param user_input_message: введенный пользователем текст

@@ -11,6 +11,11 @@ class BaseUI(metaclass=ABCMeta):
         self._contact_list = list()
 
     @abstractmethod
+    def input_actions_manager(self, msg):
+        """Обрбаботка действий пользователя из интерфейса"""
+        raise NotImplementedError
+
+    @abstractmethod
     def success_authentication(self):
         """Метод вызывается при успешной аутентификации"""
         raise NotImplementedError

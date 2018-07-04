@@ -17,9 +17,9 @@ class AsyncServerManager(asyncio.Protocol):
     def connection_made(self, transport):
         """
         Новое соединение:
-        1) Сохраняем абстракцию сокет-соединения
-        2) Генерируем пару ключей
-        3) Отправляем клиенту публичный ключ
+        1) Сохраняет абстракцию сокет-соединения
+        2) Генерирует пару ключей
+        3) Отправляет клиенту публичный ключ
         """
         self.user.transport = transport
         self.user.public, self.user.private = generate_rsa_pair()

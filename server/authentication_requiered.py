@@ -5,6 +5,8 @@ from protocol.codes import UNAUTHORIZED
 
 
 def authentication_required(func):
+    """Декоратор для проверки аутентификации. Если action находится в AUTHENTICATION_REQUIRED_ACTIONS,
+    и пользователь не авторизован, то декоратор вернет код 401 вместо любого другого кода"""
     @wraps(func)
     def inner_function(server_obj, request):
         if request.action in AUTHENTICATION_REQUIRED_ACTIONS:  # actions must be in authorized tuple

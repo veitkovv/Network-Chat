@@ -17,6 +17,9 @@ class GuiClient(BaseUI):
         super().__init__()
         self.signals = QtSignals()
 
+    def input_actions_manager(self, msg):
+        pass
+
     def display_chat_message(self, message):
         pass
 
@@ -43,7 +46,7 @@ class GuiClient(BaseUI):
         pass
 
     def request_account_name(self, dialog_message):
-        """Из дочернего потока с циклом событий отправляем сигнал главному окну
+        """Из дочернего потока с циклом событий отправляется сигнал главному окну
         В главном окне через диалог получаем имя пользователя и возвращаем его контроллеру"""
         self.signals.request_account_name_signal.emit(dialog_message)
         while not self.account_name:
@@ -63,3 +66,4 @@ class GuiClient(BaseUI):
         2) получить список пользователей в чатах, членом которых является пользователь
         3) отобразить это в дереве.
         """
+        pass

@@ -15,7 +15,7 @@ class AsyncClientManager(asyncio.Protocol):
         super().__init__()
         self._loop = loop
         self._transport = None
-        self._pub_key = '' # поле для публичного ключа
+        self._pub_key = ''  # поле для публичного ключа
         self._aes = CipherAes('')
         self._ui_controller = ui_controller  # экземпляр контроллера UI: консольный или GUI
 
@@ -95,7 +95,7 @@ class AsyncClientManager(asyncio.Protocol):
             # асинхронный ввод
             msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
             # считываем ввод, что хочет пользователь, создаем объект json-request
-            request = self._ui_controller.keyboard_input_actions_manager(msg)
+            request = self._ui_controller.input_actions_manager(msg)
             if isinstance(request, Request):
                 self.send_message(request)
 
@@ -103,7 +103,7 @@ class AsyncClientManager(asyncio.Protocol):
         """Метод для получения исходящих сообщений от клиента GUI"""
         while True:
             msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
-            request = self._ui_controller.keyboard_input_actions_manager(msg)
+            request = self._ui_controller.input_actions_manager(msg)
             if isinstance(request, Request):
                 self.send_message(request)
 

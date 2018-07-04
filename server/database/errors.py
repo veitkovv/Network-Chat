@@ -13,4 +13,4 @@ class ContactAlreadyInDatabase(Exception):
         self.name = name
 
     def __str__(self):
-        return 'Пользователь {} уже есть в базе'.format(self.name)
+        return 'Contact {} already exists'.format(self.name)
