@@ -11,12 +11,17 @@ class BaseUI(metaclass=ABCMeta):
         self._contact_list = list()
 
     @abstractmethod
+    def success_authentication(self):
+        """Метод вызывается при успешной аутентификации"""
+        raise NotImplementedError
+
+    @abstractmethod
     def render_message_from_server(self, message):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def display_chat_message(self, message):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def display_private_message(self, message):
@@ -24,24 +29,24 @@ class BaseUI(metaclass=ABCMeta):
 
     @abstractmethod
     def display_error(self, message):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def display_contact_list(self, message):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def display_chat_list(self):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def display_chat_state(self):
         """join/leave chat message"""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def display_presence(self):
-        pass
+        raise NotImplementedError
 
     @staticmethod
     def timestamp_to_normal_date(timestamp):
@@ -49,11 +54,11 @@ class BaseUI(metaclass=ABCMeta):
 
     @abstractmethod
     def request_account_name(self, dialog_message):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def request_password(self, dialog_message):
-        pass
+        raise NotImplementedError
 
     @property
     def account_name(self):

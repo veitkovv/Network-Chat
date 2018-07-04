@@ -2,7 +2,7 @@ import asyncio
 import ssl
 import threading
 
-from client.manager import AsyncClientManager
+from client.connection_manager import AsyncClientManager
 from client.cli_args import CliArgs
 from client.ui.console_ui.controller import ConsoleClient
 from client.ui.qt_gui.controller import GuiClient
@@ -28,7 +28,7 @@ def create_thread_loop(ui_controller, host, port, sc):
     client_instance = AsyncClientManager(loop, ui_controller)
     coro = loop.create_connection(lambda: client_instance, host, port, ssl=sc)
     loop.run_until_complete(coro)
-    # asyncio.async(client_instance.get_console_messages(loop))
+    asyncio.async(client_instance.get_gui_messages(loop))
 
     loop.run_forever()
     loop.close()

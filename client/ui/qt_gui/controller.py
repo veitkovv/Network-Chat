@@ -3,9 +3,12 @@ from PyQt5.QtCore import pyqtSignal, QObject
 
 
 class QtSignals(QObject):
+    # Сигналы в GUI
     request_account_name_signal = pyqtSignal(str)
     render_message_from_server_signal = pyqtSignal(bytes)
     request_password_signal = pyqtSignal(str)
+
+    # сигналы от GUI в дочерний поток
 
 
 class GuiClient(BaseUI):
@@ -53,3 +56,10 @@ class GuiClient(BaseUI):
         while not self.account_password:
             pass  # ввод пользователя
         return self.account_password
+
+    def success_authentication(self):
+        """
+        1) получить список всех чатов
+        2) получить список пользователей в чатах, членом которых является пользователь
+        3) отобразить это в дереве.
+        """

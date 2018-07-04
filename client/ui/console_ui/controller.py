@@ -9,6 +9,9 @@ class ConsoleClient(BaseUI):
     def __init__(self):
         super().__init__()
 
+    def success_authentication(self):
+        self.print_help()
+
     def display_chat_message(self, message):
         out_string = f'\nCHAT MESSAGE {message.headers["recipient"]}: ' \
                      f'[{self.timestamp_to_normal_date(message.headers["time"])}] ' \

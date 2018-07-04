@@ -11,5 +11,5 @@ def authenticate_response_processing(response_message, ui_controller):
         new_password = ui_controller.request_password('Type new password: ')
         return Request(action='registration', body=[ui_controller.account_name, get_hash(new_password)])
     elif response_message.code == ACCEPTED:
-        # ui_controller.print_help() TODO
+        ui_controller.success_authentication()
         return Request(action='join', body='')

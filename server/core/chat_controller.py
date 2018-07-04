@@ -6,8 +6,9 @@ from server.core.exceptions import (ChatNotFound, UserAlreadyInChat, ChatDoesNot
 
 class ChatController(metaclass=Singleton):
     def __init__(self):
-        self._chats = dict()  # {name: [user1, user2]}
-        self._chats.update({DEFAULT_CHAT: []})  # создаем чат all , где будут все пользователи
+        # {name: [user1, user2]}
+        # создаем чат all , где будут все пользователи
+        self._chats = {DEFAULT_CHAT: []}
 
     @property
     def chats(self):

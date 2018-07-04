@@ -13,30 +13,14 @@ from client.core.response_handler import response_handler
 class AsyncClientManager(asyncio.Protocol):
     def __init__(self, loop, ui_controller):
         super().__init__()
-        self.loop = loop
+        self._loop = loop
         self._transport = None
-        self._pub_key = ''
+        self._pub_key = '' # поле для публичного ключа
         self._aes = CipherAes('')
-        self._ui_controller = ui_controller  # UI консольный или GUI
-
-    @property
-    def transport(self):
-        return self._transport
-
-    @transport.setter
-    def transport(self, value):
-        self._transport = value
-
-    @property
-    def pub_key(self):
-        return self._pub_key
-
-    @pub_key.setter
-    def pub_key(self, value):
-        self._pub_key = value
+        self._ui_controller = ui_controller  # экземпляр контроллера UI: консольный или GUI
 
     def connection_made(self, transport):
-        self.transport = transport
+        self._transport = transport
         self._aes.secret = generate_session_key(32)  # ключ 32 байта
 
     def data_received(self, data):
@@ -46,8 +30,8 @@ class AsyncClientManager(asyncio.Protocol):
 
     def connection_lost(self, exc):
         log.info('The server closed the connection; Stop the event loop')
-        self.transport.close()
-        self.loop.stop()
+        self._transport.close()
+        self._loop.stop()
 
     def process_key_exchange(self, received_rsa_public_key):
         """
@@ -55,9 +39,9 @@ class AsyncClientManager(asyncio.Protocol):
         :param received_rsa_public_key: публичный ключ RSA
         """
         # Сохраняем публичный ключ, которым будем шифровать ключ длля симметричного шифра
-        self.pub_key = public_key_from_bytes(received_rsa_public_key)
+        self._pub_key = public_key_from_bytes(received_rsa_public_key)
         # Шифруем ключ сессии публичным ключем
-        ciphered_session_key = rsa_cipher_byte_string(self._aes.secret, self.pub_key)
+        ciphered_session_key = rsa_cipher_byte_string(self._aes.secret, self._pub_key)
         # Длинна сообщения в начало сообщения
         ciphered_session_key_with_len = append_message_len_to_message(ciphered_session_key)
         # Отправляем ключ, которым будут шифроваться все последующие ссообщения
@@ -81,7 +65,7 @@ class AsyncClientManager(asyncio.Protocol):
         Если еще нет ключа, то запускается обмен ключами с сервером и отправляется presence
         в условии Else - расшифровывается сообщение и передается на обработку
         """
-        if not self.pub_key:
+        if not self._pub_key:
             self.process_key_exchange(message)
             if not self._ui_controller.account_name:
                 self.perform_presence()
@@ -103,10 +87,20 @@ class AsyncClientManager(asyncio.Protocol):
     def send_message(self, message):
         """Дописывает в начало длинну сообщения, и затем отправляет"""
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self._aes))
-        self.transport.write(ciphered_message_with_len)
+        self._transport.write(ciphered_message_with_len)
 
     async def get_console_messages(self, loop):
         """Метод для отправки введенных данных с клавиатуры"""
+        while True:
+            # асинхронный ввод
+            msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
+            # считываем ввод, что хочет пользователь, создаем объект json-request
+            request = self._ui_controller.keyboard_input_actions_manager(msg)
+            if isinstance(request, Request):
+                self.send_message(request)
+
+    async def get_gui_messages(self, loop):
+        """Метод для получения исходящих сообщений от клиента GUI"""
         while True:
             msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
             request = self._ui_controller.keyboard_input_actions_manager(msg)
