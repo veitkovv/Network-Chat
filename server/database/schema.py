@@ -67,11 +67,7 @@ class Contact(Base):
 DB_FOLDER_PATH = os.path.dirname(os.path.abspath(__file__))
 # путь до файла базы данных
 DB_PATH = os.path.join(DB_FOLDER_PATH, 'server.sqlite')
-# создаем движок
 engine = create_engine(f'sqlite:///{DB_PATH}', echo=False, )  # connect_args={'check_same_thread': False})
-
-# Не забываем создать структуру базы данных
 Base.metadata.create_all(engine)
-# Создаем сессию для работы
 Session = sessionmaker(bind=engine)
 session = Session()

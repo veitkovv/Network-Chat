@@ -6,7 +6,7 @@ from client.connection_manager import AsyncClientManager
 from client.cli_args import CliArgs
 from client.ui.console_ui.controller import ConsoleClient
 from client.ui.qt_gui.controller import GuiClient
-from client.ui.qt_gui.main import create_main_window
+from client.ui.qt_gui.main_window import create_main_window
 
 
 def create_loop(ui_controller, host, port, sc):
@@ -24,7 +24,7 @@ def create_loop(ui_controller, host, port, sc):
 def create_thread_loop(ui_controller, host, port, sc):
     """Цикл событий не в главном потоке. Главный поток занят QT окном"""
     loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
+    asyncio.set_event_loop(loop)  # event loop in thread
     client_instance = AsyncClientManager(loop, ui_controller)
     coro = loop.create_connection(lambda: client_instance, host, port, ssl=sc)
     loop.run_until_complete(coro)

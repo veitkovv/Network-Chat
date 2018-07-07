@@ -2,10 +2,9 @@ import asyncio
 
 from protocol.byte_stream_handler import pick_messages_from_stream, append_message_len_to_message
 from protocol.crypto.aes import CipherAes
-from protocol.crypto.utils import public_key_from_bytes, rsa_cipher_byte_string, generate_session_key
+from protocol.crypto.utils import public_key_from_bytes, rsa_cipher_byte_string, generate_session_key, get_hash
 from protocol.client import Request, Response
 from protocol.codes import UNAUTHORIZED
-from protocol.crypto.utils import get_hash
 from client.log.logging import client_logger as log
 from client.core.response_handler import response_handler
 
@@ -25,6 +24,7 @@ class AsyncClientManager(asyncio.Protocol):
 
     def data_received(self, data):
         if data:
+            # отдельные сообщения из потока байт
             for message in pick_messages_from_stream(data):
                 self.process_message_manager(message)
 
@@ -35,16 +35,12 @@ class AsyncClientManager(asyncio.Protocol):
 
     def process_key_exchange(self, received_rsa_public_key):
         """
-        Метод шифрует публичным ключем ключ для симметричного шифрования AES , для дальнейшего обмена сообщениями
+        Метод шифрует публичным ключем ключ для симметричного шифрования AES, для дальнейшего обмена сообщениями
         :param received_rsa_public_key: публичный ключ RSA
         """
-        # Сохраняем публичный ключ, которым будем шифровать ключ длля симметричного шифра
         self._pub_key = public_key_from_bytes(received_rsa_public_key)
-        # Шифруем ключ сессии публичным ключем
         ciphered_session_key = rsa_cipher_byte_string(self._aes.secret, self._pub_key)
-        # Длинна сообщения в начало сообщения
         ciphered_session_key_with_len = append_message_len_to_message(ciphered_session_key)
-        # Отправляем ключ, которым будут шифроваться все последующие ссообщения
         self._transport.write(ciphered_session_key_with_len)
 
     def perform_presence(self):
@@ -101,11 +97,12 @@ class AsyncClientManager(asyncio.Protocol):
 
     async def get_gui_messages(self, loop):
         """Метод для получения исходящих сообщений от клиента GUI"""
-        while True:
-            msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
-            request = self._ui_controller.input_actions_manager(msg)
-            if isinstance(request, Request):
-                self.send_message(request)
+
+        # while True:
+        #     msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
+        #     request = self._ui_controller.input_actions_manager(msg)
+        #     if isinstance(request, Request):
+        #         self.send_message(request)
 
     # async def get_iu_messages(self, loop):
     #     def executor():
