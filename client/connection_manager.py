@@ -7,6 +7,7 @@ from protocol.client import Request, Response
 from protocol.codes import UNAUTHORIZED
 from client.log.logging import client_logger as log
 from client.core.response_handler import response_handler
+from client.ui.qt_gui.main_window import create_main_window
 
 
 class AsyncClientManager(asyncio.Protocol):
@@ -85,34 +86,14 @@ class AsyncClientManager(asyncio.Protocol):
         ciphered_message_with_len = append_message_len_to_message(message.to_cipher_bytes(self._aes))
         self._transport.write(ciphered_message_with_len)
 
-    async def get_console_messages(self, loop):
-        """Метод для отправки введенных данных с клавиатуры"""
-        while True:
-            # асинхронный ввод
-            msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
-            # считываем ввод, что хочет пользователь, создаем объект json-request
-            request = self._ui_controller.input_actions_manager(msg)
-            if isinstance(request, Request):
-                self.send_message(request)
-
-    async def get_gui_messages(self, loop):
-        """Метод для получения исходящих сообщений от клиента GUI"""
-
-        # while True:
-        #     msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
-        #     request = self._ui_controller.input_actions_manager(msg)
-        #     if isinstance(request, Request):
-        #         self.send_message(request)
-
-    # async def get_iu_messages(self, loop):
-    #     def executor():
-    #         while not self.is_open:
-    #             pass
-    #         self.gui = Gui(None, self)
-    #         self.output = self.tkoutput  # Set client output to tk window
-    #         self.output("Connected to {0}:{1}\n".format(*self.sockname))
-    #         self.gui.mainloop()
-    #         self.transport.close()  # If window closed, close connection
-    #         self.loop.stop()
-    #
-    #     await loop.run_in_executor(None, executor)  # Run GUI in executor for simultanity
+    async def run_ui(self, loop):
+        """Запуск обработчика ui в цикле событий."""
+        if self._ui_controller.ui_type == 'console':
+            while True:
+                # асинхронный ввод
+                msg = await loop.run_in_executor(None, input, self._ui_controller.user_input_string)
+                request = self._ui_controller.input_actions_manager(msg)
+                if isinstance(request, Request):
+                    self.send_message(request)
+        elif self._ui_controller.ui_type == 'gui':
+            await loop.run_in_executor(None, create_main_window, self._ui_controller)

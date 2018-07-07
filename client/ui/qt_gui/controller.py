@@ -1,4 +1,4 @@
-from client.ui.base import BaseUI
+from client.ui.base_controller import BaseUI
 from PyQt5.QtCore import pyqtSignal, QObject
 
 
@@ -16,6 +16,7 @@ class GuiClient(BaseUI):
     def __init__(self):
         super().__init__()
         self.signals = QtSignals()
+        self.ui_type = 'gui'
 
     def input_actions_manager(self, msg):
         pass

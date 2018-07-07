@@ -1,6 +1,6 @@
 from time import time
 
-from client.ui.base import BaseUI
+from client.ui.base_controller import BaseUI
 from client.log.logging import client_logger as log
 from protocol.client import Request, Response
 
@@ -8,6 +8,7 @@ from protocol.client import Request, Response
 class ConsoleClient(BaseUI):
     def __init__(self):
         super().__init__()
+        self.ui_type = 'console'
 
     def success_authentication(self):
         self.print_help()

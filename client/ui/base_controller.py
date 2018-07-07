@@ -9,6 +9,7 @@ class BaseUI(metaclass=ABCMeta):
         self._active_chat = None
         self._account_settings = {'account_name': '', 'password': ''}
         self._contact_list = list()
+        self.ui_type = None
 
     @abstractmethod
     def input_actions_manager(self, msg):
@@ -22,10 +23,12 @@ class BaseUI(metaclass=ABCMeta):
 
     @abstractmethod
     def render_message_from_server(self, message):
+        """Метод отображения сообщения от сервера"""
         raise NotImplementedError
 
     @abstractmethod
     def display_chat_message(self, message):
+        """Отображение сообщения в чат"""
         raise NotImplementedError
 
     @abstractmethod
@@ -52,10 +55,6 @@ class BaseUI(metaclass=ABCMeta):
     @abstractmethod
     def display_presence(self):
         raise NotImplementedError
-
-    @staticmethod
-    def timestamp_to_normal_date(timestamp):
-        return datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')
 
     @abstractmethod
     def request_account_name(self, dialog_message):
@@ -102,3 +101,7 @@ class BaseUI(metaclass=ABCMeta):
 
     def del_contact_from_list(self, contact_name_to_remove):
         self._contact_list.remove(contact_name_to_remove)
+
+    @staticmethod
+    def timestamp_to_normal_date(timestamp):
+        return datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')
