@@ -8,7 +8,7 @@ class QtSignals(QObject):
     render_message_from_server_signal = pyqtSignal(bytes)
     request_password_signal = pyqtSignal(str)
 
-    # сигналы от GUI в дочерний поток
+    # сигналы от GUI
 
 
 class GuiClient(BaseUI):
@@ -64,7 +64,6 @@ class GuiClient(BaseUI):
     def success_authentication(self):
         """
         1) получить список всех чатов
-        2) получить список пользователей в чатах, членом которых является пользователь
-        3) отобразить это в дереве.
+        2) отобразить в дереве
         """
         pass

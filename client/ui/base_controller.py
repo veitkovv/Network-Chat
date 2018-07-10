@@ -8,8 +8,8 @@ class BaseUI(metaclass=ABCMeta):
     def __init__(self):
         self._active_chat = None
         self._account_settings = {'account_name': '', 'password': ''}
-        self._contact_list = list()
-        self.ui_type = None
+        self._contact_list = list() # todo нужно ли это поле
+        self.ui_type = None  # поле для определения типа запущенного ui
 
     @abstractmethod
     def input_actions_manager(self, msg):
