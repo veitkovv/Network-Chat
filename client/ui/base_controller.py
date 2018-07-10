@@ -61,7 +61,7 @@ class BaseUI(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def request_password(self, dialog_message):
+    def request_password(self):
         raise NotImplementedError
 
     @property

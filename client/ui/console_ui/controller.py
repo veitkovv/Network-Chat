@@ -47,10 +47,11 @@ class ConsoleClient(BaseUI):
         pass
 
     def request_account_name(self, dialog_message):
-        return input(dialog_message)
+        self.account_name = input(dialog_message)
 
-    def request_password(self, dialog_message):
-        return input(dialog_message)
+    def request_password(self):
+        dialog_message = f'{self.account_name}, please type your password: '
+        self.account_password = input(dialog_message)
 
     @property
     def user_input_string(self):

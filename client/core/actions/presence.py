@@ -3,7 +3,12 @@ from protocol.codes import NOT_FOUND, WRONG_REQUEST, SERVER_ERROR, OK
 from protocol.crypto.utils import get_hash
 
 
-def presence_response_processing(response_message, ui_instance):
+def presence_request(ui_instance):
+    ui_instance.request_account_name('Type your account name: ')
+    return Request(action='presence', body=ui_instance.account_name)
+
+
+def presence_response(response_message, ui_instance):
     """Обработка ответа сервера на presence"""
     if response_message.code == OK:  # Если все хорошо, запрос на join . пустое тело = дефолтный чат.
         return Request(action='join', body='')

@@ -2,7 +2,7 @@ from protocol.client import Request
 from protocol.codes import CONFLICT, NOT_FOUND, OK
 
 
-def join_response_processing(response_message, ui_controller):
+def join_response(response_message, ui_controller):
     if response_message.code == NOT_FOUND:
         # Чат не найден. Запрос списка чатов.
         return Request(action='get_chats', body=ui_controller.account_name)

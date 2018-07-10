@@ -1,7 +1,7 @@
 from protocol.codes import BASIC_NOTICE
 
 
-def msg_response_processing(response_message, ui_instance):
+def msg_response(response_message, ui_instance):
     if response_message.code == BASIC_NOTICE:  # обычное сообщение
         if response_message.headers['recipient'].startswith('#'):
             ui_instance.display_chat_message(response_message)

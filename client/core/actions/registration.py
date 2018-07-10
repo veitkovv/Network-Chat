@@ -3,7 +3,7 @@ from protocol.codes import CONFLICT, WRONG_REQUEST, CREATED
 from protocol.crypto.utils import get_hash
 
 
-def registration_response_processing(response_message, ui_instance):
+def registration_response(response_message, ui_instance):
     ui_account_name = ui_instance.account_name
     if response_message.code == WRONG_REQUEST:
         new_password = ui_instance.request_password('Please type the correct account_name: ')

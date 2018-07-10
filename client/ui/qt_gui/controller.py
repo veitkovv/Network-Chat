@@ -52,14 +52,13 @@ class GuiClient(BaseUI):
         self.signals.request_account_name_signal.emit(dialog_message)
         while not self.account_name:
             pass  # ждем ввода имени пользователя
-        return self.account_name
 
-    def request_password(self, dialog_message):
+    def request_password(self):
         """Если код ответа - 401 , то в диалоге будет запрошен пароль"""
+        dialog_message = f'{self.account_name}, please type your password: '
         self.signals.request_password_signal.emit(dialog_message)
         while not self.account_password:
             pass  # ввод пользователя
-        return self.account_password
 
     def success_authentication(self):
         """
